@@ -1,0 +1,5 @@
+Playlist state lives here.
+
+quotes_schedule.json and seen_blocks.json are created on the first run and are
+committed to the repository on purpose - GitHub Actions runners are ephemeral,
+so committing them back is what carries the playlist from one day to the next.

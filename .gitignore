@@ -1,0 +1,70 @@
+# ---------------------------------------------------------------------------
+# Secrets - never commit
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ---------------------------------------------------------------------------
+# IMPORTANT: state/ is deliberately NOT ignored.
+#
+# state/quotes_schedule.json and state/seen_blocks.json are the playlist and
+# the seen index. GitHub Actions runners are ephemeral, so committing these
+# files back to the repository is what carries the playlist from one day to
+# the next. Ignoring them would make Echoes rebuild from scratch every run.
+# ---------------------------------------------------------------------------
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.conda/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.ruff_cache/
+.mypy_cache/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and scratch
+*.log
+logs/
+tmp/
+scratch/
+
+# scripts/dump_quotes.py output - a throwaway inspection snapshot, not the
+# tracked playlist (that's state/quotes_schedule.json, which stays tracked).
+/quotes_snapshot.json
