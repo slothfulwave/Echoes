@@ -78,7 +78,7 @@ def settings(tmp_path: Path) -> Settings:
             api_version="v21.0",
             phone_number_id="123",
             access_token="token",
-            recipient="919999999999",
+            recipients=["919999999999"],
             template_name="echoes_daily_quotes",
             template_language="en",
             alert_template_name="echoes_alert",

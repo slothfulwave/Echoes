@@ -92,23 +92,41 @@ class WhatsAppSender(Sender):
 
         lines = format_lines(bundle, book_separator=self._book_separator)
         parameters = self._pad(lines)
-
-        payload = self._template_payload(
-            template_name=str(self._settings.template_name), parameters=parameters
-        )
+        recipients = self._settings.recipients
 
         if self._dry_run:
             logger.info(
-                "DRY RUN - would send template %r with %d parameter(s):\n%s",
-                self._settings.template_name, len(parameters), "\n".join(parameters),
+                "DRY RUN - would send template %r to %d recipient(s) with %d parameter(s):\n%s",
+                self._settings.template_name, len(recipients), len(parameters), "\n".join(parameters),
             )
             return
 
-        message_id = self._post(payload)
-        logger.info(
-            "Delivered %d quote(s) for %s via template %r (message id %s)",
-            len(bundle.quotes), bundle.day, self._settings.template_name, message_id,
-        )
+        # One recipient failing must not stop the others from getting today's
+        # message; only a total failure is reported as undelivered.
+        failed: list[str] = []
+        for recipient in recipients:
+            payload = self._template_payload(
+                to=recipient, template_name=str(self._settings.template_name), parameters=parameters
+            )
+            try:
+                message_id = self._post(payload)
+                logger.info(
+                    "Delivered %d quote(s) for %s to %s via template %r (message id %s)",
+                    len(bundle.quotes), bundle.day, mask(recipient),
+                    self._settings.template_name, message_id,
+                )
+            except DeliveryError as exc:
+                failed.append(recipient)
+                logger.error("Delivery to %s failed: %s", mask(recipient), exc)
+
+        if len(failed) == len(recipients):
+            raise DeliveryError(f"WhatsApp delivery failed for all {len(recipients)} recipient(s).")
+        if failed:
+            logger.warning(
+                "Delivered to %d/%d recipient(s); failed for: %s",
+                len(recipients) - len(failed), len(recipients),
+                ", ".join(mask(r) for r in failed),
+            )
 
     def send_alert(self, message: str) -> None:
         """Best-effort alert. Never raises - an alert failure must not mask the
@@ -121,28 +139,36 @@ class WhatsAppSender(Sender):
             return
 
         text = self._sanitise(message)
-        payload = self._template_payload(
-            template_name=self._settings.alert_template_name, parameters=[text]
-        )
 
         if self._dry_run:
-            logger.info("DRY RUN - would send alert template with: %s", text)
+            logger.info(
+                "DRY RUN - would send alert template to %d recipient(s) with: %s",
+                len(self._settings.recipients), text,
+            )
             return
 
-        try:
-            self._post(payload)
-            logger.info("Alert delivered: %s", text)
-        except Exception as exc:  # noqa: BLE001 - alerting must never raise
-            logger.error("Could not deliver alert (%s). Alert text was: %s", exc, text)
+        for recipient in self._settings.recipients:
+            payload = self._template_payload(
+                to=recipient, template_name=self._settings.alert_template_name, parameters=[text]
+            )
+            try:
+                self._post(payload)
+                logger.info("Alert delivered to %s: %s", mask(recipient), text)
+            except Exception as exc:  # noqa: BLE001 - alerting must never raise
+                logger.error(
+                    "Could not deliver alert to %s (%s). Alert text was: %s", mask(recipient), exc, text
+                )
 
     # ------------------------------------------------------------------
     # Internals
     # ------------------------------------------------------------------
-    def _template_payload(self, *, template_name: str, parameters: list[str]) -> dict[str, Any]:
+    def _template_payload(
+        self, *, to: str, template_name: str, parameters: list[str]
+    ) -> dict[str, Any]:
         return {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
-            "to": self._settings.recipient,
+            "to": to,
             "type": "template",
             "template": {
                 "name": template_name,

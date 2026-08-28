@@ -96,6 +96,18 @@ def _get_bool(name: str, default: bool) -> bool:
     raise ConfigurationError(f"Environment variable {name!r} must be a boolean, got {raw!r}.")
 
 
+def _get_list(name: str, *, required: bool = False) -> list[str]:
+    """Comma-separated environment variable, e.g. multiple WhatsApp recipients."""
+    raw = _get(name, required=required)
+    values = [item.strip() for item in raw.split(",")] if raw else []
+    values = [item for item in values if item]
+    if required and not values:
+        raise ConfigurationError(
+            f"Environment variable {name!r} must contain at least one value."
+        )
+    return values
+
+
 def _get_date(name: str, default: str) -> date:
     raw = _get(name, default)
     try:
@@ -139,7 +151,7 @@ class WhatsAppSettings:
     api_version: str
     phone_number_id: str | None
     access_token: str | None
-    recipient: str | None
+    recipients: list[str]
     template_name: str | None
     template_language: str
     alert_template_name: str | None
@@ -219,7 +231,7 @@ class Settings:
             api_version=str(_get("WHATSAPP_API_VERSION", "v21.0")),
             phone_number_id=_get("WHATSAPP_PHONE_NUMBER_ID", required=whatsapp_required),
             access_token=_get("WHATSAPP_ACCESS_TOKEN", required=whatsapp_required),
-            recipient=_get("WHATSAPP_RECIPIENT_NUMBER", required=whatsapp_required),
+            recipients=_get_list("WHATSAPP_RECIPIENT_NUMBERS", required=whatsapp_required),
             template_name=_get("WHATSAPP_TEMPLATE_NAME", required=whatsapp_required),
             template_language=str(_get("WHATSAPP_TEMPLATE_LANGUAGE", "en")),
             alert_template_name=_get("WHATSAPP_ALERT_TEMPLATE_NAME"),
