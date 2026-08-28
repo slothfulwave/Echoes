@@ -62,7 +62,7 @@ jobs:
           NOTION_ME_SECTION_DATABASE_ID: ${{ secrets.NOTION_ME_SECTION_DATABASE_ID }}
           WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
           WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
-          WHATSAPP_RECIPIENT_NUMBER: ${{ secrets.WHATSAPP_RECIPIENT_NUMBER }}
+          WHATSAPP_RECIPIENT_NUMBERS: ${{ secrets.WHATSAPP_RECIPIENT_NUMBERS }}
 
           # Non-secret configuration. Add these under the "Variables" tab, or
           # leave them unset to use the defaults compiled into config.py.
