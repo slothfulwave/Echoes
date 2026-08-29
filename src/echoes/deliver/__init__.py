@@ -6,12 +6,12 @@ from echoes.deliver.base import Sender
 from echoes.deliver.console import ConsoleSender
 from echoes.deliver.factory import build_sender
 from echoes.deliver.formatter import format_bundle, format_lines
-from echoes.deliver.whatsapp import WhatsAppSender
+from echoes.deliver.twilio import TwilioSender
 
 __all__ = [
     "ConsoleSender",
     "Sender",
-    "WhatsAppSender",
+    "TwilioSender",
     "build_sender",
     "format_bundle",
     "format_lines",

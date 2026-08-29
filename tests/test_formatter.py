@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from echoes.deliver.formatter import format_bundle, format_lines, format_quote
-from echoes.deliver.whatsapp import PARAMETER_PADDING, WhatsAppSender
+from echoes.deliver.twilio import PARAMETER_PADDING, TwilioSender
 from echoes.models import DailyBundle, PoolName, Quote
 
 
@@ -58,11 +58,11 @@ def test_newlines_are_flattened(today):
 
 
 def test_whatsapp_pads_short_days_to_the_template_parameter_count():
-    padded = WhatsAppSender._pad.__wrapped__ if hasattr(WhatsAppSender._pad, "__wrapped__") else None
+    padded = TwilioSender._pad.__wrapped__ if hasattr(TwilioSender._pad, "__wrapped__") else None
     assert padded is None  # _pad is a plain method; exercised below via a stub instance.
 
 
-class _Padder(WhatsAppSender):
+class _Padder(TwilioSender):
     """Instantiates the padding logic without opening an HTTP session."""
 
     def __init__(self, expected: int):

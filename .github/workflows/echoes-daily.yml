@@ -60,8 +60,9 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_BOOKS_DATABASE_ID: ${{ secrets.NOTION_BOOKS_DATABASE_ID }}
           NOTION_ME_SECTION_DATABASE_ID: ${{ secrets.NOTION_ME_SECTION_DATABASE_ID }}
-          WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
-          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_WHATSAPP_FROM: ${{ secrets.TWILIO_WHATSAPP_FROM }}
           WHATSAPP_RECIPIENT_NUMBERS: ${{ secrets.WHATSAPP_RECIPIENT_NUMBERS }}
 
           # Non-secret configuration. Add these under the "Variables" tab, or
@@ -72,11 +73,10 @@ jobs:
           QUOTES_PER_DAY_BOOKS: ${{ vars.QUOTES_PER_DAY_BOOKS || '2' }}
           QUOTES_PER_DAY_STANDALONE: ${{ vars.QUOTES_PER_DAY_STANDALONE || '1' }}
           QUOTES_PER_DAY_BOOKS_FALLBACK: ${{ vars.QUOTES_PER_DAY_BOOKS_FALLBACK || '3' }}
-          WHATSAPP_TEMPLATE_NAME: ${{ vars.WHATSAPP_TEMPLATE_NAME || 'echoes_daily_quotes' }}
-          WHATSAPP_ALERT_TEMPLATE_NAME: ${{ vars.WHATSAPP_ALERT_TEMPLATE_NAME || 'echoes_alert' }}
-          WHATSAPP_TEMPLATE_LANGUAGE: ${{ vars.WHATSAPP_TEMPLATE_LANGUAGE || 'en' }}
+          TWILIO_DAILY_CONTENT_SID: ${{ vars.TWILIO_DAILY_CONTENT_SID }}
+          TWILIO_ALERT_CONTENT_SID: ${{ vars.TWILIO_ALERT_CONTENT_SID }}
 
-          # Switch to 'whatsapp' once the Business account and templates exist.
+          # Switch to 'whatsapp' once the Twilio account and templates exist.
           DELIVERY_MODE: ${{ vars.DELIVERY_MODE || 'console' }}
           TIMEZONE: ${{ vars.TIMEZONE || 'Asia/Kolkata' }}
           LOG_LEVEL: ${{ inputs.log_level || vars.LOG_LEVEL || 'INFO' }}

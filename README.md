@@ -239,47 +239,62 @@ likely to touch:
 which just prints the message instead of sending it. This section is for when
 you're ready to actually receive quotes on WhatsApp.
 
+Echoes sends WhatsApp messages through **[Twilio](https://www.twilio.com)**
+rather than calling Meta's Graph API directly. Twilio is a "Business Solution
+Provider" — an officially authorized reseller of the same underlying WhatsApp
+Business Platform, with its own account signup and console instead of Meta's
+developer console. Practically, this means: Twilio's own phone verification
+(independent of Meta's), a **free Sandbox** you can send test messages from
+within minutes with no business verification at all, and Twilio support to
+lean on if something gets stuck.
+
 ### Why it needs more than an API key
 
 Echoes never *receives* a WhatsApp message from you, so there's never an open
 conversation window the way there is when you message a business first.
-Every message Echoes sends is "business-initiated," and Meta (WhatsApp's
-parent company) requires every business-initiated message to use a
-pre-approved **template** — a fixed message shape with blanks Meta has
-reviewed in advance. That means two templates need approval before this
-works at all: one for the daily quotes, one for the failure alert.
+Every message Echoes sends is "business-initiated," and the underlying
+WhatsApp Business Platform requires every business-initiated message to use
+a pre-approved **Content Template** — a fixed message shape with blanks that
+have been reviewed in advance. That means two templates need approval before
+this works at all: one for the daily quotes, one for the failure alert.
 
 ### Step-by-step setup
 
-**1. Create a Meta app.**
-Go to [developers.facebook.com](https://developers.facebook.com), log in,
-and under **My Apps → Create App** choose the **Business** type. Give it any
-name (e.g. `echoes`).
+**1. Create a Twilio account.**
+Go to [twilio.com/try-twilio](https://www.twilio.com/try-twilio) and sign up.
+Verification is via Twilio's own system, independent of Meta.
 
-**2. Add the WhatsApp product.**
-In the app dashboard, find **WhatsApp** and click **Set up**. This
-automatically creates a free, Meta-owned **test phone number** for you — you
-don't need to register your own number or verify a business to start.
+**2. Join the WhatsApp Sandbox.**
+In the [Twilio Console](https://console.twilio.com), go to
+**Messaging → Try it out → Send a WhatsApp message**. It shows a Sandbox
+number (`+1 415 523 8886`) and a join code like `join <two-words>`. From the
+WhatsApp account you want quotes delivered to, send that join code as a
+message to the Sandbox number. You're now able to receive test messages —
+no business verification, no waiting.
 
-**3. Get your phone number ID and API version.**
-On the **WhatsApp → API Setup** tab, copy the **Phone number ID** shown under
-"From" — that's `WHATSAPP_PHONE_NUMBER_ID`. The sample request on that same
-page shows the current API version (e.g. `v21.0`) — that's
-`WHATSAPP_API_VERSION`.
+**3. Get your Account SID and Auth Token.**
+On the Console's home/dashboard page, copy **Account SID** and **Auth
+Token** — that's `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN`.
 
-**4. Add and verify recipients.**
-Still on that page, under "To," add each phone number that should receive
-quotes and verify it with the code WhatsApp sends. The free test tier allows
-up to 5 verified numbers — plenty for personal use. These become
+**4. Note your sender number.**
+While testing, this is the Sandbox number: `14155238886` (same convention as
+recipients below — no `+`, no spaces). That's `TWILIO_WHATSAPP_FROM`. You'll
+replace this with your own approved WhatsApp sender if you move off the
+Sandbox later.
+
+**5. Set your recipients.**
 `WHATSAPP_RECIPIENT_NUMBERS`: one or more numbers, comma-separated,
 international format with no `+` and no spaces (India = `91XXXXXXXXXX`). The
 same message goes to every number in the list independently — this fans a
-message out to individuals, it is **not** a WhatsApp group.
+message out to individuals, it is **not** a WhatsApp group. While on the
+Sandbox, every recipient number must first join it (step 2) from that
+WhatsApp account.
 
-**5. Create the two templates.**
-Go to **WhatsApp Manager → Message Templates** and create:
+**6. Create the two Content Templates.**
+In the Console, go to **Messaging → Content Template Builder → Create new**
+and create:
 
-- **`echoes_daily_quotes`** — category **Utility**, body:
+- **Daily quotes template** — type **Text**, category **Utility**, body:
   ```
   1. {{1}}
   2. {{2}}
@@ -287,32 +302,23 @@ Go to **WhatsApp Manager → Message Templates** and create:
   ```
   (three separate variables, because template parameters can't contain line
   breaks — the template itself supplies the line breaks between them)
-- **`echoes_alert`** — category **Utility**, body: `{{1}}`
+- **Alert template** — type **Text**, category **Utility**, body: `{{1}}`
 
-Both need a sample value per variable to submit for review. Approval
-typically takes minutes to about a day. Note the exact language code you
-picked (e.g. `en`) — it has to match exactly in `.env` later.
-
-**6. Generate a permanent access token.**
-The token shown on the API Setup page expires in 24 hours — fine for a quick
-test, useless for a job that runs unattended once a day. For a real token:
-go to [business.facebook.com/settings](https://business.facebook.com/settings)
-→ **Users → System Users** → add a system user → assign it your app and
-WhatsApp Business Account → **Generate new token**, selecting the
-`whatsapp_business_messaging` and `whatsapp_business_management` permissions
-and an expiration of **Never**. That's `WHATSAPP_ACCESS_TOKEN`.
+Submit each for WhatsApp approval (Twilio handles submission to Meta on your
+behalf). Approval typically takes minutes to about a day. Once approved, copy
+each template's **Content SID** (starts with `HX`) — those are
+`TWILIO_DAILY_CONTENT_SID` and `TWILIO_ALERT_CONTENT_SID`.
 
 **7. Fill in `.env` and switch delivery mode on.**
 
 ```
 DELIVERY_MODE=whatsapp
-WHATSAPP_API_VERSION=v21.0
-WHATSAPP_PHONE_NUMBER_ID=...
-WHATSAPP_ACCESS_TOKEN=...
+TWILIO_ACCOUNT_SID=...
+TWILIO_AUTH_TOKEN=...
+TWILIO_WHATSAPP_FROM=14155238886
 WHATSAPP_RECIPIENT_NUMBERS=919999999999
-WHATSAPP_TEMPLATE_NAME=echoes_daily_quotes
-WHATSAPP_ALERT_TEMPLATE_NAME=echoes_alert
-WHATSAPP_TEMPLATE_LANGUAGE=en
+TWILIO_DAILY_CONTENT_SID=HX...
+TWILIO_ALERT_CONTENT_SID=HX...
 ```
 
 Then `echoes run --dry-run` to check the config loads without errors,
@@ -323,15 +329,20 @@ followed by `echoes run` for a real send.
 - **A parameter-count mismatch gets rejected outright.** On a short day —
   when a pool doesn't divide evenly and the last day has only 1 or 2 quotes
   instead of 3 — the unused template slots are padded with an em dash so
-  Meta still accepts the send.
+  the send is still accepted.
 - **One recipient failing doesn't block the others.** If you've added more
   than one number and one of them fails to receive a message, Echoes still
   delivers to the rest and logs which one failed — the run only counts as
   fully failed if *every* recipient failed.
+- **The Sandbox is for testing, not daily production use.** Joined numbers
+  can expire and need rejoining, and it's meant for verifying the pipeline
+  works end to end — not as the permanent delivery channel. Moving to a real
+  approved WhatsApp sender is a Twilio Console step, not a code change.
 - **Pricing scales per recipient**, not per message: sending to 3 numbers is
-  billed as 3 independent conversations, not one shared cost. Check Meta's
-  current WhatsApp Business Platform pricing page for exact rates, since they
-  vary by recipient country and change over time.
+  billed as 3 independent conversations, not one shared cost. Twilio also
+  adds its own small per-message fee on top of the underlying WhatsApp fee.
+  Check Twilio's current WhatsApp pricing page for exact rates, since they
+  vary by recipient country and change over time. The Sandbox itself is free.
 
 ---
 
@@ -371,14 +382,15 @@ Add these under **Settings → Secrets and variables → Actions → Secrets**:
 NOTION_API_KEY
 NOTION_BOOKS_DATABASE_ID
 NOTION_ME_SECTION_DATABASE_ID
-WHATSAPP_PHONE_NUMBER_ID
-WHATSAPP_ACCESS_TOKEN
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+TWILIO_WHATSAPP_FROM
 WHATSAPP_RECIPIENT_NUMBERS
 ```
 
-Non-secret settings (`DELIVERY_MODE`, `TIMEZONE`, the per-day rates, template
-names) go under the **Variables** tab instead, or can be left unset entirely
-to use the defaults baked into `config.py`.
+Non-secret settings (`DELIVERY_MODE`, `TIMEZONE`, the per-day rates, Content
+Template SIDs) go under the **Variables** tab instead, or can be left unset
+entirely to use the defaults baked into `config.py`.
 
 `workflow_dispatch` is enabled, so you can trigger a run by hand from the
 **Actions** tab — with a dry-run toggle and a log-level picker — without

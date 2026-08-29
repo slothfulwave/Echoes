@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from echoes.config import NotionSettings, Settings, WhatsAppSettings
+from echoes.config import NotionSettings, Settings, TwilioSettings
 from echoes.models import PoolName, Quote
 
 
@@ -74,14 +74,13 @@ def settings(tmp_path: Path) -> Settings:
             me_section_tag_property="Tags",
             me_section_tag_value="Quote",
         ),
-        whatsapp=WhatsAppSettings(
-            api_version="v21.0",
-            phone_number_id="123",
-            access_token="token",
+        twilio=TwilioSettings(
+            account_sid="ACtest",
+            auth_token="token",
+            from_number="14155238886",
             recipients=["919999999999"],
-            template_name="echoes_daily_quotes",
-            template_language="en",
-            alert_template_name="echoes_alert",
+            daily_content_sid="HXdaily",
+            alert_content_sid="HXalert",
             timeout_seconds=5,
             max_retries=1,
         ),

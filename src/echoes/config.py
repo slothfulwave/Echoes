@@ -141,20 +141,22 @@ class NotionSettings:
 
 
 @dataclass(frozen=True, slots=True)
-class WhatsAppSettings:
-    """WhatsApp Cloud API credentials and template names.
+class TwilioSettings:
+    """Twilio credentials and WhatsApp Content Template SIDs.
 
-    Placeholders until the Business account exists; ``DELIVERY_MODE=console``
-    keeps the rest of the system runnable in the meantime.
+    Echoes sends WhatsApp messages through Twilio's WhatsApp API rather than
+    calling Meta's Graph API directly - Twilio handles the underlying Meta
+    business verification and template approval. Placeholders until an
+    account exists; ``DELIVERY_MODE=console`` keeps the rest of the system
+    runnable in the meantime.
     """
 
-    api_version: str
-    phone_number_id: str | None
-    access_token: str | None
+    account_sid: str | None
+    auth_token: str | None
+    from_number: str | None
     recipients: list[str]
-    template_name: str | None
-    template_language: str
-    alert_template_name: str | None
+    daily_content_sid: str | None
+    alert_content_sid: str | None
     timeout_seconds: int
     max_retries: int
 
@@ -184,7 +186,7 @@ class Settings:
     refresh_weekday: int  # Monday=0 ... Sunday=6
 
     notion: NotionSettings
-    whatsapp: WhatsAppSettings
+    twilio: TwilioSettings
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -210,7 +212,7 @@ class Settings:
         seed_raw = _get("RANDOM_SEED")
         random_seed = int(seed_raw) if seed_raw else None
 
-        whatsapp_required = delivery_mode == "whatsapp"
+        twilio_required = delivery_mode == "whatsapp"
 
         notion = NotionSettings(
             api_key=str(_get("NOTION_API_KEY", required=True)),
@@ -227,16 +229,15 @@ class Settings:
             me_section_tag_value=str(_get("NOTION_ME_SECTION_TAG_VALUE", "Quote")),
         )
 
-        whatsapp = WhatsAppSettings(
-            api_version=str(_get("WHATSAPP_API_VERSION", "v21.0")),
-            phone_number_id=_get("WHATSAPP_PHONE_NUMBER_ID", required=whatsapp_required),
-            access_token=_get("WHATSAPP_ACCESS_TOKEN", required=whatsapp_required),
-            recipients=_get_list("WHATSAPP_RECIPIENT_NUMBERS", required=whatsapp_required),
-            template_name=_get("WHATSAPP_TEMPLATE_NAME", required=whatsapp_required),
-            template_language=str(_get("WHATSAPP_TEMPLATE_LANGUAGE", "en")),
-            alert_template_name=_get("WHATSAPP_ALERT_TEMPLATE_NAME"),
-            timeout_seconds=_get_int("WHATSAPP_TIMEOUT_SECONDS", 30),
-            max_retries=_get_int("WHATSAPP_MAX_RETRIES", 3),
+        twilio = TwilioSettings(
+            account_sid=_get("TWILIO_ACCOUNT_SID", required=twilio_required),
+            auth_token=_get("TWILIO_AUTH_TOKEN", required=twilio_required),
+            from_number=_get("TWILIO_WHATSAPP_FROM", required=twilio_required),
+            recipients=_get_list("WHATSAPP_RECIPIENT_NUMBERS", required=twilio_required),
+            daily_content_sid=_get("TWILIO_DAILY_CONTENT_SID", required=twilio_required),
+            alert_content_sid=_get("TWILIO_ALERT_CONTENT_SID"),
+            timeout_seconds=_get_int("TWILIO_TIMEOUT_SECONDS", 30),
+            max_retries=_get_int("TWILIO_MAX_RETRIES", 3),
         )
 
         settings = cls(
@@ -257,7 +258,7 @@ class Settings:
             sunday_refresh_enabled=_get_bool("SUNDAY_REFRESH_ENABLED", True),
             refresh_weekday=_get_int("REFRESH_WEEKDAY", 6),
             notion=notion,
-            whatsapp=whatsapp,
+            twilio=twilio,
         )
         settings.validate()
         return settings
