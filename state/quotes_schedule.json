@@ -1,0 +1,539 @@
+{
+  "version": 1,
+  "pools": {
+    "standalone": {
+      "per_day": 1,
+      "cycle": 1,
+      "built_on": "2026-08-30",
+      "days": {
+        "2026-08-30": [
+          {
+            "block_id": "50f996c3-d57c-4539-97eb-b142aae86148",
+            "text": "The life works in unexpected ways — sometimes tough, while at other moments, it reveals its beauty. You never know what it has in store for you.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-08-31": [
+          {
+            "block_id": "139c7dcc-6324-806f-8de8-ec9831dc0735",
+            "text": "Namárië — Be well and go towards goodness",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-01": [
+          {
+            "block_id": "64e6b9a3-8375-42c0-87f6-f9e44f1a8c9b",
+            "text": "You will always get the result you trained for, not the result you desire.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-02": [
+          {
+            "block_id": "13ac7dcc-6324-80a7-b15e-e4ef52da2b7d",
+            "text": "Success is a relationship you have with your own self.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-03": [
+          {
+            "block_id": "13ac7dcc-6324-8076-823d-c4e2f3fb3c57",
+            "text": "Life will always be filled with ups and downs. It's the law of nature. Yin and yang, light and dark. It's the nature of life and it's okay. We must embrace the duality inherent within life. Without night, there is no day. Without black, there is no white. Without negative, there is no positive. Spending your life trying to make everything be light only creates suffering. Spending your energy to only hold on to light is not freedom. We must learn to embrace the darkness, and in doing so, we transform ourselves. In accepting the nature of life, we accept what is and what isn't and experience freedom. Life will always have expansion and contraction. When you stop seeking for perfection outside in the constantly changing world and realize that inside you is the ultimate perfection, that your soul is perfect beyond duality, beyond good or bad-when you understand that, you are free. Truly free. You see that life is perfect even in its seeming imperfection. Peace is an inside job. Don't look for peace in the world because you won't find it. — You Are The One",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-04": [
+          {
+            "block_id": "d880745f-1cec-489c-89ff-4ce47b88ace7",
+            "text": "The universe rewards those who initiate.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-05": [
+          {
+            "block_id": "1919c216-0e34-4bf2-b6c1-7d0ee4b534e4",
+            "text": "Everyone wants to be the SUN to brighten up someone’s life, but why not be the MOON to shine on someone’s darkest hour.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-06": [
+          {
+            "block_id": "fb6875a7-4a85-4e06-8761-f27ded48939d",
+            "text": "Kismat se phele na kismat se zyaada, Mila hai har kisi ko zindagi main!",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-07": [
+          {
+            "block_id": "139c7dcc-6324-8007-96e2-d29c6bc516d3",
+            "text": "The universe will not grant you peace in something that was not meant for you.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-08": [
+          {
+            "block_id": "13ac7dcc-6324-804c-bbd5-cf9694c563b5",
+            "text": "Everything you've ever wanted is still waiting for you. You have not lost your chance, your potential has not waned, your truth has not diminished — even if you have kept it in hiding. All you lost was one particular chance to make it manifest. There will be an infinite more. You have not lost anything just because you lost one particular moment in time. You still contain everything you've ever wished to become.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-09": [
+          {
+            "block_id": "c6fcb357-26cd-49e2-b3ac-723270a66542",
+            "text": "You fall in love with the little things about someone, like the sound of their laughter and the way their smile forms.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-10": [
+          {
+            "block_id": "a7050c06-9eaa-4493-a5d4-244854b9ade8",
+            "text": "One often meets their destiny on the road they take to avoid it.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-11": [
+          {
+            "block_id": "c0eb4592-e618-4382-8b3e-6e07dcd319b2",
+            "text": "Love is the greatest risk of all, but life without it is meaningless.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-12": [
+          {
+            "block_id": "13ac7dcc-6324-8062-814a-c1b2c80c12ea",
+            "text": "Commitment is what transforms a promise into reality.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-13": [
+          {
+            "block_id": "c8e606fd-1161-4fca-ad5a-77c96313a3ff",
+            "text": "Main apne hi mann ka hausla hoon!",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-14": [
+          {
+            "block_id": "c0d423b9-3b25-4e5b-b3a7-354cff62b69f",
+            "text": "The first step’s the hardest when you’re walking into the unknown.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-15": [
+          {
+            "block_id": "3b26d1dc-dce9-4aa4-8b4f-756b91e77386",
+            "text": "To determine where you should go, you must first understand where you are.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-16": [
+          {
+            "block_id": "13ac7dcc-6324-80dc-8c02-e04c27beed6d",
+            "text": "Whether you are chasing something for yourself or something bigger, you truly have one life don’t forget to show up for it.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-17": [
+          {
+            "block_id": "77dd85de-9f7f-4638-af5d-fc3de3d8e743",
+            "text": "This moment, right here, is life.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-18": [
+          {
+            "block_id": "13ac7dcc-6324-80b0-91d0-d71952e6a457",
+            "text": "Every mortal experiences death, but few experiences life. — Rumi",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-19": [
+          {
+            "block_id": "582f034d-4b68-4afd-b64d-4dbb36029684",
+            "text": "History doesn’t repeat itself, but it rhymes.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-20": [
+          {
+            "block_id": "13ac7dcc-6324-80a3-9062-ed122b9c06c2",
+            "text": "Only in the darkest moments do the true stars shine brightest.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-21": [
+          {
+            "block_id": "13ac7dcc-6324-80d5-909f-e59f8c35a26c",
+            "text": "If you are not busy being born, you are busy dying. — Bob Dylan",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ]
+      }
+    },
+    "books": {
+      "per_day": 2,
+      "cycle": 1,
+      "built_on": "2026-08-30",
+      "days": {
+        "2026-08-30": [
+          {
+            "block_id": "1be33e8a-d4dd-4adb-9ecf-750cfa97b009",
+            "text": "Sometimes you cannot believe what you see, you have to believe what you feel. And if you are ever going to have other people trust you, you must feel that you can trust them, too — even when you’re in the dark. Even when you’re falling.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "200c7dcc-6324-801a-a68a-e8e08da9e786",
+            "text": "A lifetime can be lived in a moment.",
+            "pool": "books",
+            "source_title": "Tales from the Tail End"
+          }
+        ],
+        "2026-08-31": [
+          {
+            "block_id": "23e3521e-fbf5-42c0-b56b-51f976bf95a4",
+            "text": "Accept what you are able to do and what you are not able to do; Accept the past as past, without denying it or discarding it; Learn to forgive yourself and to forgive others; Don’t assume that it’s too late to get involved.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "1fec7dcc-6324-8035-9fa8-cfa2addd0422",
+            "text": "The person who is navigating the space, his or her experience becomes the content. The content is you! If you don’t walk into the work and engage with it, there isn’t any content.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          }
+        ],
+        "2026-09-01": [
+          {
+            "block_id": "1fec7dcc-6324-802b-b520-cf6a72a93b77",
+            "text": "The most successful works of art have a life beyond the studio or the gallery wall. Viola believes that ‘the most important place where my work exists is not in the museum gallery, or in the screening room, or on the television, and not even on the video screen itself, but in the mind of the viewer who has seen it’.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          },
+          {
+            "block_id": "9f755b70-7fe8-43a2-ae82-a2aa36a7e8fd",
+            "text": "The most important thing in life is to learn how to give out love, and to let it come in.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-02": [
+          {
+            "block_id": "3054bfa8-6ddb-4091-8414-b13ec052722b",
+            "text": "A teacher affects eternity; he can never tell where his influence stops.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "110c7dcc-6324-8080-9af4-c975e2c7aeec",
+            "text": "There are a few rules I know to be true about love and marriage: If you don’t respect the other person, you’re gonna have a lot of trouble. If you don’t know how to compromise, you’re gonna have a lot of trouble. If you can’t talk openly about what goes on between you, you’re gonna have a lot of trouble. And if you don’t have a common set of values in life, you’re gonna have a lot of trouble. Your values must be alike.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-03": [
+          {
+            "block_id": "fffc7dcc-6324-80c3-a5d7-fcf18e54edf0",
+            "text": "You need someone to probe you in the right direction. It won’t just happen automatically.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "cb480903-67c9-4c59-b43e-74bc5e5e4d62",
+            "text": "Most of us all walk around as if we’re sleepwalking. We really don’t experience the world fully, because we’re half-asleep, doing things we automatically think we have to do.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-04": [
+          {
+            "block_id": "1b6c7dcc-6324-8005-9d83-e59062818a75",
+            "text": "On books and friends I spend my money; — For stones and bricks I haven’t any",
+            "pool": "books",
+            "source_title": "Whispers of the Rain"
+          },
+          {
+            "block_id": "1fec7dcc-6324-80ec-8366-d53f44359ae2",
+            "text": "Take It Slow — Sometimes it’s hard to clear our minds in the midst of a busy day, to give ourselves the space we need to be able to contemplate our work. Learn to slow yourself down. You can apply the idea of ‘slow motion’ to anything you normally do quickly and without thinking, from slow-motion walking to cleaning your teeth to doing the washing up. See how slowly you can do one task. Think about each movement — make each one feel deliberate. As you settle into the rhythm of the task, your breathing should become deeper and slow down to coordinate with your movement. Pay attention to what your whole body is doing. Once you’ve mastered going slow in life, you can try it with your art.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          }
+        ],
+        "2026-09-05": [
+          {
+            "block_id": "200c7dcc-6324-8053-ab00-eb140f8491fa",
+            "text": "Finding happiness is an unrealistic goal. Happiness is not a mountain you manage to climb one fine day and plant a flag on. Peace and contentment are more attainable goals.",
+            "pool": "books",
+            "source_title": "Tales from the Tail End"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-8007-82fe-c1a35d97d3f4",
+            "text": "You only have yourself to rely on, in every sense.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-06": [
+          {
+            "block_id": "1b1c7dcc-6324-8079-aa00-c157255c3f33",
+            "text": "Listen! Listen to the night wind in the trees, — Listen to the summer grass singing; Listen to the time that’s tripping by, And the dawn dew falling. Listen to the moon as it climbs the sky, Listen to the pebbles humming; Listen to the mist in the trembling leaves, And the silence calling.",
+            "pool": "books",
+            "source_title": "Whispers of the Rain"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-803f-a365-c11a9f33ed62",
+            "text": "To be an artist means: not to calculate and count; to grow and ripen like a tree which does not hurry the flow of its sap and stands at ease in the spring gales without fearing that no summer may follow. But it comes only to those who are patient, who are simply there in their vast, quiet tranquillity, as if eternity lay before them — Patience is all!",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-07": [
+          {
+            "block_id": "1fec7dcc-6324-808c-8502-e40dbb631106",
+            "text": "Paying attention to the edges and spaces within and around an object, rather than the object itself, helps us to look properly rather than rely on what we think we know.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          },
+          {
+            "block_id": "1b6c7dcc-6324-8079-bcd3-f8d479b83208",
+            "text": "Some of the best sounds are made by water. The water of mountain stream, always in a hurry, bubbling over rocks and chattering, ‘I’m late, I’m late!’ like the White Rabbit, tumbling over itself in its anxiety to reach the bottom of the hill, the sound of the sea, especially when it is far away — or when you hear it by putting a seashell to your ear. The sound made by dry and thirsty earth, as it sucks at a sprinkling of water. Or the sound of a child drinking thirstily, the water running down his chin and throat.",
+            "pool": "books",
+            "source_title": "Whispers of the Rain"
+          }
+        ],
+        "2026-09-08": [
+          {
+            "block_id": "2cfc7dcc-6324-8080-9656-e78459852400",
+            "text": "And in the man too there is maternity, as it seems to me, physical and spiritual; his engendering is also a kind of giving birth, and it is an act of birth when he creates out of his inmost resources.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          },
+          {
+            "block_id": "110c7dcc-6324-8083-a0d6-d9ea19f23075",
+            "text": "Love each other or perish.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-09": [
+          {
+            "block_id": "9222a305-89ef-4131-af3e-7f831b5dc432",
+            "text": "Love wins. Love always wins.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "110c7dcc-6324-80c2-9d1a-d61b8e195271",
+            "text": "Giving makes me feel like I am living.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-10": [
+          {
+            "block_id": "1fec7dcc-6324-801f-969d-d76c46430225",
+            "text": "Patterns can be found everywhere, if you look for them.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          },
+          {
+            "block_id": "110c7dcc-6324-800c-9138-d33ce3150856",
+            "text": "Learn to detach. But detachment doesn’t mean you don’t let the experience penetrate you. On the contrary, you let it penetrate you fully. That’s how you are able to leave it.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-11": [
+          {
+            "block_id": "2cfc7dcc-6324-8024-9863-d579cdb266b7",
+            "text": "Don’t you see how everything that happens is always a beginning again, and could it not be His beginning, given that beginnings are in themselves always so beautiful?",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-8024-8a80-d7d96bc1520c",
+            "text": "If you hold close to nature, to what is simple in it, to the small things people hardly see and which all of a sudden can become great and immeasurable; if you have this love for what is slight, and quite unassumingly, as a servant, seek to win the confidence of what seems poor — then everything will grow easier, more unified and somehow more conciliatory, not perhaps in the intellect, which, amazed, remains a step behind. but in your deepest consciousness, watchfulness and knowledge.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-12": [
+          {
+            "block_id": "1fec7dcc-6324-80ba-baa9-c2944c7e9b81",
+            "text": "Simply pick up a pen and write continuously. The aim is to let yourself write — don’t stop to make sense of it, or to edit yourself. Close your eyes and then try writing if that helps you shut out the outside world.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-80f8-bb9a-f5dedc360418",
+            "text": "For he who creates must be a world of his own and find everything within himself and in the natural world that he has elected to follow.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-13": [
+          {
+            "block_id": "200c7dcc-6324-8080-8b28-e4dcf11e191b",
+            "text": "You Only Live Once — hence you are supposed to live life kingsize, do what makes you happy and have no regrets.",
+            "pool": "books",
+            "source_title": "Tales from the Tail End"
+          },
+          {
+            "block_id": "110c7dcc-6324-8096-a5d5-eacfb6173f58",
+            "text": "Invest in the human family. Invest in people. Build a little community of those you love and who love you.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-14": [
+          {
+            "block_id": "1b1c7dcc-6324-800e-a7b2-fc0a1b4702c8",
+            "text": "We get out of life what we bring to it. There is not a dream which may not come true if we have the energy which determines our own fate. We can always get what we want if we will it intensely enough…So few people succeed greatly because so few people conceive a great end, working towards it without giving up. We all know that the man who works steadily for money gets rich; the man who works day and night for fame or power reaches his goal. And those who work for deeper, more spiritual achievements will find them too. It may come when we no longer have any use for it, but if we have been willing it long enough, it will come!",
+            "pool": "books",
+            "source_title": "The Land of Many Colours"
+          },
+          {
+            "block_id": "1fec7dcc-6324-8013-a88a-f875c5599714",
+            "text": "In the search for something new, it is always worth looking for lessons outside of your medium.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          }
+        ],
+        "2026-09-15": [
+          {
+            "block_id": "2cfc7dcc-6324-80f7-b432-e2a03f4da7e0",
+            "text": "Live the questions for now. Perhaps then you will gradually, without noticing it, live your way into the answer, one distant day in the future.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-80a7-b287-c7947ea94126",
+            "text": "You are looking to the outside, and that above all you should not be doing now. Nobody can advise you and help you, nobody. There is only one way. Go into yourself.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-16": [
+          {
+            "block_id": "200c7dcc-6324-802b-8d8d-ceb74affb2e9",
+            "text": "To be able to breathe, walk, listen to a rooster crowing, scold a husband, laugh with a friend and look at something so beautiful, is in itself a miracle.",
+            "pool": "books",
+            "source_title": "Tales from the Tail End"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-806d-bac1-d914a6fb101e",
+            "text": "Go through your development quietly and seriously; you cannot disrupt it more than by looking outwards and expecting answers from without to questions that only your innermost instinct in your quietest moments will perhaps be able to answer.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-17": [
+          {
+            "block_id": "200c7dcc-6324-80aa-8bb0-d16a7bd3588d",
+            "text": "Women make more well-rounded leaders and managers because the one ingredient that completes skill, determination, creativity, intellect and hard work is Compassion. An invisible golden thread that holds it all together, richly, beautifully.",
+            "pool": "books",
+            "source_title": "Tales from the Tail End"
+          },
+          {
+            "block_id": "110c7dcc-6324-80f5-9eb5-cae49ec347c2",
+            "text": "Part of the problem is that everyone is in such a hurry. People haven’t found meaning in their lives, so they’re running all the time looking for it. They think the next car, the next house, the net job. Then they find those things are empty too, and they keep running.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-18": [
+          {
+            "block_id": "72818d9b-ed04-41c0-b6f8-11b2d26617f0",
+            "text": "Love is the greatest risk of all, but life without it is meaningless.",
+            "pool": "books",
+            "source_title": "The People on Platform 5"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-802f-9fab-c7b2f81b14c0",
+            "text": "Ask Yourself — Dig down into yourself for a deep answer. And if it should be affirmative, if it is given to you to respond to this serious question with a loud and simple ‘I must’, then construct your life according to this necessity",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-19": [
+          {
+            "block_id": "cc7dd19d-a720-4036-b648-d4bc7c72538e",
+            "text": "Once you learn how to die, you learn how to live.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "2cfc7dcc-6324-8090-89ba-d31ee490bf29",
+            "text": "To go into yourself and to examine the depts from which your life springs; as its source you will find the answer to the question of whether you have to write.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          }
+        ],
+        "2026-09-20": [
+          {
+            "block_id": "1fec7dcc-6324-803f-b7a2-cb41e96b62e4",
+            "text": "There is always a multitude of ways of seeing. Don’t feel guilty about giving yourself time to think through things.",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          },
+          {
+            "block_id": "4faf873e-4dad-4d55-bd65-23a7b5db66c8",
+            "text": "The way you get meaning into your life is to devote yourself to loving others, devote yourself to your community around you, and devote yourself to creating something that gives you purpose and meaning.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ],
+        "2026-09-21": [
+          {
+            "block_id": "2cfc7dcc-6324-80ba-9dbd-ce28cad356ee",
+            "text": "To love is also good, for love is hard. Love between one person and another: that is perhaps the hardest thing it is laid on us to do, the utmost, the ultimate trial and test, the work for which all other work is just preparation.",
+            "pool": "books",
+            "source_title": "Letters to a Young Poet"
+          },
+          {
+            "block_id": "1fec7dcc-6324-80da-8608-cbb7a025ec29",
+            "text": "Give yourself time to pause and to reflect and it may reveal new possibilities",
+            "pool": "books",
+            "source_title": "Brief Lessons in Seeing Differently"
+          }
+        ],
+        "2026-09-22": [
+          {
+            "block_id": "110c7dcc-6324-807d-8862-ee50a3525f6b",
+            "text": "The problem is that we don’t believe we are as much alike as we are. Whites and blacks, Catholics and Protestants, men and women. If we saw each other as more alike, we might be very eager to join in one big human family in this world, and to care about the family the way we care about our own.",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          },
+          {
+            "block_id": "f8b59557-7294-4f67-8af4-0846ea616815",
+            "text": "Every day, have a little bird on your shoulder that asks, ‘Is today the day? Am I ready? Am I doing all I need to do? Am I being the person I want to be?”",
+            "pool": "books",
+            "source_title": "Tuesdays With Morrie"
+          }
+        ]
+      }
+    }
+  }
+}
