@@ -12,11 +12,13 @@ window, every message remains business-initiated and needs its own approved
 Content Template - the daily quotes and the failure alert alike, exactly as
 under the direct Meta integration this replaced.
 
-Content Template variables cannot contain newlines, so the three lines are
-sent as three separate numbered variables (``ContentVariables`` keys "1",
-"2", "3") and the template body supplies the line breaks between them. Meta
-still rejects a variable-count mismatch, so short-tail days pad the unused
-slots rather than omitting them.
+Content Template variables cannot contain newlines, so the three quotes are
+sent as three separate variables (``ContentVariables`` keys "1", "2", "3")
+and the template body supplies both the line breaks and the "1. "/"2. "/"3. "
+numbering between them. The numbering is deliberately *not* baked into the
+variable values here - the approved template already renders it, so doing
+both would print it twice. Meta still rejects a variable-count mismatch, so
+short-tail days pad the unused slots rather than omitting them.
 
 Credentials below are read from configuration and are placeholders until a
 Twilio account and approved templates exist; run with ``DELIVERY_MODE=console``
@@ -32,7 +34,7 @@ import requests
 
 from echoes.config import TwilioSettings
 from echoes.deliver.base import Sender
-from echoes.deliver.formatter import format_lines
+from echoes.deliver.formatter import format_quote
 from echoes.errors import DeliveryError
 from echoes.logging_setup import get_logger, mask
 from echoes.models import DailyBundle
@@ -97,8 +99,10 @@ class TwilioSender(Sender):
         if bundle.is_empty:
             raise DeliveryError("Refusing to send an empty message - no quotes were scheduled.")
 
-        lines = format_lines(bundle, book_separator=self._book_separator)
-        parameters = self._pad(lines)
+        # Bare quote text, no leading number - the approved template already
+        # supplies "1. "/"2. "/"3. ", so adding it here would double it up.
+        quotes = [format_quote(quote, book_separator=self._book_separator) for quote in bundle.quotes]
+        parameters = self._pad(quotes)
         recipients = self._settings.recipients
 
         if self._dry_run:
@@ -163,7 +167,7 @@ class TwilioSender(Sender):
             try:
                 self._post(payload)
                 logger.info("Alert delivered to %s: %s", mask(recipient), text)
-            except Exception as exc:  # noqa: BLE001 - alerting must never raise
+            except Exception as exc:
                 logger.error(
                     "Could not deliver alert to %s (%s). Alert text was: %s", mask(recipient), exc, text
                 )

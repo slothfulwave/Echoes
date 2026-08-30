@@ -21,8 +21,8 @@ from echoes.deliver.base import Sender
 from echoes.errors import CollectionError, DeliveryError, StateError
 from echoes.logging_setup import get_logger
 from echoes.models import ISO_DATE, DailyBundle, Playlist, SeenIndex
-from echoes.playlist import PlaylistService, StateStore
 from echoes.pipeline.refresh import perform_refresh
+from echoes.playlist import PlaylistService, StateStore
 
 logger = get_logger(__name__)
 
@@ -191,7 +191,7 @@ def _raise_alerts(sender: Sender, report: RunReport, settings: Settings) -> None
     for message in report.alerts:
         try:
             sender.send_alert(message)
-        except Exception as exc:  # noqa: BLE001 - alerting must never mask the real failure
+        except Exception as exc:
             logger.error("Alert delivery raised unexpectedly (%s): %s", exc, message)
 
 

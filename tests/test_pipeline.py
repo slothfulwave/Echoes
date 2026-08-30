@@ -7,7 +7,7 @@ Notion HTTP transport. Delivery runs through the real ConsoleSender.
 from __future__ import annotations
 
 import dataclasses
-from typing import Any
+from typing import Any, ClassVar
 
 import pytest
 
@@ -19,10 +19,15 @@ from echoes.playlist import StateStore
 
 
 class FakeNotionAPI:
-    """Drop-in replacement for NotionAPI backed by canned payloads."""
+    """Drop-in replacement for NotionAPI backed by canned payloads.
 
-    pages: dict[str, list[dict[str, Any]]] = {}
-    children: dict[str, list[dict[str, Any]]] = {}
+    ``pages``/``children`` are reassigned wholesale by the ``fake_notion``
+    fixture on the class itself (not per instance), so they are genuinely
+    shared class state rather than an accidental mutable default.
+    """
+
+    pages: ClassVar[dict[str, list[dict[str, Any]]]] = {}
+    children: ClassVar[dict[str, list[dict[str, Any]]]] = {}
     fail: bool = False
 
     def __init__(self, *_args, **_kwargs):
@@ -197,12 +202,18 @@ def test_outage_with_no_playlist_sends_nothing_but_alerts(settings, fake_notion)
 
 def test_sunday_refresh_runs_after_delivery(settings, fake_notion, monkeypatch):
     """New quotes added between runs are appended on the refresh weekday."""
+    # Both calls must be frozen: books cover 4 days (8 quotes / 2 per day), so
+    # an unfrozen first call would build a schedule starting from the real
+    # wall-clock date - and once that drifts past 2026-08-09, the second call
+    # below would see the frozen date as *before* the schedule and rebuild
+    # from scratch instead of appending, which is not what this test checks.
+    _freeze_date(monkeypatch, 2026, 8, 6)
     run_daily(settings)
 
     # Add a quote to an existing book page - block-level identity catches this.
     fake_notion.children["book-1"].append(_callout("m-99", "A newly added Morrie quote."))
 
-    _freeze_date(monkeypatch, 2026, 8, 9)  # a Sunday
+    _freeze_date(monkeypatch, 2026, 8, 9)  # a Sunday, and the books schedule's last day
     report = run_daily(settings)
 
     assert report.delivered

@@ -20,7 +20,7 @@ from datetime import date
 from echoes.collect.collector import QuoteCollector
 from echoes.config import Settings
 from echoes.logging_setup import get_logger
-from echoes.models import DailyBundle, ISO_DATE, Playlist, PoolName, PoolSchedule, Quote, SeenIndex
+from echoes.models import ISO_DATE, DailyBundle, Playlist, PoolName, PoolSchedule, Quote, SeenIndex
 from echoes.playlist.scheduler import append_schedule, build_schedule, make_rng
 from echoes.playlist.state_store import StateStore
 

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import date, timedelta
+from datetime import timedelta
 
 import pytest
-
-from echoes.models import ISO_DATE, PoolName
-from echoes.playlist.scheduler import append_schedule, build_schedule, chunk, make_rng
 from tests.conftest import make_quote
+
+from echoes.models import ISO_DATE
+from echoes.playlist.scheduler import append_schedule, build_schedule, chunk, make_rng
 
 
 def test_chunk_splits_evenly():

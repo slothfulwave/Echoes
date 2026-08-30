@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from datetime import timedelta
 
+from tests.conftest import StubCollector, make_quote
+
 from echoes.models import PoolName
 from echoes.playlist import PlaylistService, StateStore
-from tests.conftest import StubCollector, make_quote
 
 
 def _service(settings, collector) -> tuple[PlaylistService, StateStore]:

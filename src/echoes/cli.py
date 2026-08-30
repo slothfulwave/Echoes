@@ -37,29 +37,35 @@ EXIT_FATAL = 2
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="echoes",
-        description="Echoes - the voices of books and ideas, returning in rhythm.",
-    )
-    parser.add_argument("--version", action="version", version=f"echoes {__version__}")
-    parser.add_argument(
+    # Defined once and attached to both the top-level parser and every
+    # subparser, so --log-level/--dry-run work in either position:
+    #   echoes --dry-run run   and   echoes run --dry-run
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument(
         "--log-level",
         default=None,
         choices=["DEBUG", "INFO", "WARNING", "ERROR"],
         help="Override LOG_LEVEL for this invocation.",
     )
-    parser.add_argument(
+    common.add_argument(
         "--dry-run",
         action="store_true",
         help="Do everything except sending messages and writing state.",
     )
 
-    sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("run", help="Daily run: prepare, deliver, refresh if due.")
-    sub.add_parser("refresh", help="Run the weekly refresh on its own.")
-    sub.add_parser("collect", help="Read both pools from Notion (read-only).")
+    parser = argparse.ArgumentParser(
+        prog="echoes",
+        description="Echoes - the voices of books and ideas, returning in rhythm.",
+        parents=[common],
+    )
+    parser.add_argument("--version", action="version", version=f"echoes {__version__}")
 
-    show = sub.add_parser("show", help="Show the quotes scheduled for a date.")
+    sub = parser.add_subparsers(dest="command", required=True)
+    sub.add_parser("run", help="Daily run: prepare, deliver, refresh if due.", parents=[common])
+    sub.add_parser("refresh", help="Run the weekly refresh on its own.", parents=[common])
+    sub.add_parser("collect", help="Read both pools from Notion (read-only).", parents=[common])
+
+    show = sub.add_parser("show", help="Show the quotes scheduled for a date.", parents=[common])
     show.add_argument("--date", dest="on", default=None, help="ISO date (default: today).")
 
     return parser

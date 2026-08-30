@@ -24,7 +24,7 @@ class Sender(ABC):
     def send_alert(self, message: str) -> None:
         """Send a failure alert. Must never raise - alerting is best-effort."""
 
-    def close(self) -> None:  # pragma: no cover - default is a no-op
+    def close(self) -> None:  # pragma: no cover  # noqa: B027 - optional; not every Sender holds a resource
         """Release any held resources."""
 
     def __enter__(self) -> Sender:
