@@ -191,6 +191,30 @@ class SeenIndex:
 
 
 @dataclass(slots=True)
+class EmailThread:
+    """Tracks the single ongoing Gmail thread the daily digest is appended to.
+
+    Each day's run is a fresh process, so the Message-ID history has to be
+    persisted between runs - that's the only way tomorrow's email can set
+    ``In-Reply-To``/``References`` correctly and land in the same Gmail
+    thread as every day before it, instead of starting a new conversation.
+    """
+
+    message_ids: list[str] = field(default_factory=list)
+    version: int = STATE_SCHEMA_VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"version": self.version, "message_ids": self.message_ids}
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> Self:
+        return cls(
+            version=int(raw.get("version", STATE_SCHEMA_VERSION)),
+            message_ids=list(raw.get("message_ids", [])),
+        )
+
+
+@dataclass(slots=True)
 class DailyBundle:
     """What actually gets delivered on a given day."""
 

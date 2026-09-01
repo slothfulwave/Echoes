@@ -88,6 +88,7 @@ Setup complete.
   echoes show               what is scheduled for today
   pytest                    run the test suite
 
-Delivery defaults to console mode, so nothing is sent to WhatsApp until you
-set DELIVERY_MODE=whatsapp in .env.
+Delivery defaults to email, which requires EMAIL_FROM_ADDRESS/EMAIL_APP_PASSWORD/
+EMAIL_TO_ADDRESS to be filled in. Set DELIVERY_MODE=console in .env instead
+while those aren't ready yet.
 EOF

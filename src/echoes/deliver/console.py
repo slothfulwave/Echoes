@@ -1,9 +1,9 @@
 """Console delivery.
 
 Prints the message that *would* be sent. This is what makes the whole system
-runnable and testable before a Twilio account and approved templates exist -
-collection, scheduling, refresh and failure handling all work exactly as they
-will in production, only the final hop changes.
+runnable and testable before email delivery is configured - collection,
+scheduling, refresh and failure handling all work exactly as they will in
+production, only the final hop changes.
 """
 
 from __future__ import annotations

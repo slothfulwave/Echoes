@@ -31,8 +31,10 @@ def format_quote(quote: Quote, *, book_separator: str = " - ") -> str:
 def format_lines(bundle: DailyBundle, *, book_separator: str = " - ") -> list[str]:
     """Render the bundle as numbered lines, one per quote.
 
-    Returned as a list rather than a single string because WhatsApp templates
-    take one parameter per line - template parameters cannot contain newlines.
+    Returned as a list rather than a single string so each sender can join
+    them its own way - EmailSender puts a blank line between quotes, while
+    ``format_bundle`` below uses this same list for the tighter, single-line
+    "agreed" shape.
     """
     return [
         f"{index}. {format_quote(quote, book_separator=book_separator)}"

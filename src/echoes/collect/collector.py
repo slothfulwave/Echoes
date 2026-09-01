@@ -35,9 +35,9 @@ _LEADING_DASHES = re.compile(r"^[\s\u2014\u2013\u2015\-]+")
 def _normalise(text: str) -> str:
     """Collapse all whitespace, including newlines, into single spaces.
 
-    Required, not cosmetic: WhatsApp rejects template parameters containing
-    newlines or tabs, so multi-line callouts must be flattened at collection
-    time rather than at delivery time.
+    Multi-line callouts are flattened to one line at collection time, so every
+    quote renders as a single clean entry in the numbered list wherever it's
+    delivered, rather than breaking the numbering with an embedded line break.
     """
     return " ".join(text.split())
 
@@ -234,8 +234,8 @@ class QuoteCollector:
     def _join_attribution(self, text: str, attribution: str) -> str:
         """Collapse the attribution onto the same line as the quote.
 
-        Notion renders it on its own line; WhatsApp template parameters cannot
-        contain newlines, and a single line reads better in the message anyway.
+        Notion renders it on its own line, but a single line reads better in
+        the message, and keeps the quote to one clean entry in the numbered list.
         Any dash the author already typed is stripped so the separator is
         applied exactly once.
         """

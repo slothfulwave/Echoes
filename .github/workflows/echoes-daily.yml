@@ -60,10 +60,9 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_BOOKS_DATABASE_ID: ${{ secrets.NOTION_BOOKS_DATABASE_ID }}
           NOTION_ME_SECTION_DATABASE_ID: ${{ secrets.NOTION_ME_SECTION_DATABASE_ID }}
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-          TWILIO_WHATSAPP_FROM: ${{ secrets.TWILIO_WHATSAPP_FROM }}
-          WHATSAPP_RECIPIENT_NUMBERS: ${{ secrets.WHATSAPP_RECIPIENT_NUMBERS }}
+          EMAIL_FROM_ADDRESS: ${{ secrets.EMAIL_FROM_ADDRESS }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          EMAIL_TO_ADDRESS: ${{ secrets.EMAIL_TO_ADDRESS }}
 
           # Non-secret configuration. Add these under the "Variables" tab, or
           # leave them unset to use the defaults compiled into config.py.
@@ -73,11 +72,16 @@ jobs:
           QUOTES_PER_DAY_BOOKS: ${{ vars.QUOTES_PER_DAY_BOOKS || '2' }}
           QUOTES_PER_DAY_STANDALONE: ${{ vars.QUOTES_PER_DAY_STANDALONE || '1' }}
           QUOTES_PER_DAY_BOOKS_FALLBACK: ${{ vars.QUOTES_PER_DAY_BOOKS_FALLBACK || '3' }}
-          TWILIO_DAILY_CONTENT_SID: ${{ vars.TWILIO_DAILY_CONTENT_SID }}
-          TWILIO_ALERT_CONTENT_SID: ${{ vars.TWILIO_ALERT_CONTENT_SID }}
+          # EMAIL_SUBJECT must stay identical across every run, forever, once
+          # email sends start - changing it starts a new Gmail thread.
+          EMAIL_SUBJECT: ${{ vars.EMAIL_SUBJECT || 'Echoes — Daily Quotes' }}
+          EMAIL_SMTP_HOST: ${{ vars.EMAIL_SMTP_HOST || 'smtp.gmail.com' }}
+          EMAIL_SMTP_PORT: ${{ vars.EMAIL_SMTP_PORT || '587' }}
 
-          # Switch to 'whatsapp' once the Twilio account and templates exist.
-          DELIVERY_MODE: ${{ vars.DELIVERY_MODE || 'console' }}
+          # Defaults to 'email'. Requires EMAIL_FROM_ADDRESS/EMAIL_APP_PASSWORD/
+          # EMAIL_TO_ADDRESS secrets to be set - override to 'console' here (or
+          # via the Variables tab) if those aren't configured yet.
+          DELIVERY_MODE: ${{ vars.DELIVERY_MODE || 'email' }}
           TIMEZONE: ${{ vars.TIMEZONE || 'Asia/Kolkata' }}
           LOG_LEVEL: ${{ inputs.log_level || vars.LOG_LEVEL || 'INFO' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}

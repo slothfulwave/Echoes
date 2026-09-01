@@ -96,18 +96,6 @@ def _get_bool(name: str, default: bool) -> bool:
     raise ConfigurationError(f"Environment variable {name!r} must be a boolean, got {raw!r}.")
 
 
-def _get_list(name: str, *, required: bool = False) -> list[str]:
-    """Comma-separated environment variable, e.g. multiple WhatsApp recipients."""
-    raw = _get(name, required=required)
-    values = [item.strip() for item in raw.split(",")] if raw else []
-    values = [item for item in values if item]
-    if required and not values:
-        raise ConfigurationError(
-            f"Environment variable {name!r} must contain at least one value."
-        )
-    return values
-
-
 def _get_date(name: str, default: str) -> date:
     raw = _get(name, default)
     try:
@@ -141,24 +129,24 @@ class NotionSettings:
 
 
 @dataclass(frozen=True, slots=True)
-class TwilioSettings:
-    """Twilio credentials and WhatsApp Content Template SIDs.
+class EmailSettings:
+    """Gmail SMTP credentials for the email delivery channel.
 
-    Echoes sends WhatsApp messages through Twilio's WhatsApp API rather than
-    calling Meta's Graph API directly - Twilio handles the underlying Meta
-    business verification and template approval. Placeholders until an
-    account exists; ``DELIVERY_MODE=console`` keeps the rest of the system
-    runnable in the meantime.
+    There is no template approval process - the daily message is sent as
+    plain text. The one thing that needs configuration beyond credentials is
+    ``subject``: it must stay constant across every send, since Gmail uses it
+    (alongside the In-Reply-To/References headers set at send time) to keep
+    every day's message in one ongoing thread instead of starting a new
+    conversation each day.
     """
 
-    account_sid: str | None
-    auth_token: str | None
-    from_number: str | None
-    recipients: list[str]
-    daily_content_sid: str | None
-    alert_content_sid: str | None
+    from_address: str | None
+    app_password: str | None
+    to_address: str | None
+    subject: str
+    smtp_host: str
+    smtp_port: int
     timeout_seconds: int
-    max_retries: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -186,7 +174,7 @@ class Settings:
     refresh_weekday: int  # Monday=0 ... Sunday=6
 
     notion: NotionSettings
-    twilio: TwilioSettings
+    email: EmailSettings
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -198,10 +186,10 @@ class Settings:
         except ZoneInfoNotFoundError as exc:
             raise ConfigurationError(f"Unknown TIMEZONE {timezone_name!r}.") from exc
 
-        delivery_mode = str(_get("DELIVERY_MODE", "console")).lower()
-        if delivery_mode not in {"console", "whatsapp"}:
+        delivery_mode = str(_get("DELIVERY_MODE", "email")).lower()
+        if delivery_mode not in {"console", "email"}:
             raise ConfigurationError(
-                f"DELIVERY_MODE must be 'console' or 'whatsapp', got {delivery_mode!r}."
+                f"DELIVERY_MODE must be 'console' or 'email', got {delivery_mode!r}."
             )
 
         state_dir_raw = str(_get("STATE_DIR", "state"))
@@ -212,7 +200,7 @@ class Settings:
         seed_raw = _get("RANDOM_SEED")
         random_seed = int(seed_raw) if seed_raw else None
 
-        twilio_required = delivery_mode == "whatsapp"
+        email_required = delivery_mode == "email"
 
         notion = NotionSettings(
             api_key=str(_get("NOTION_API_KEY", required=True)),
@@ -229,15 +217,14 @@ class Settings:
             me_section_tag_value=str(_get("NOTION_ME_SECTION_TAG_VALUE", "Quote")),
         )
 
-        twilio = TwilioSettings(
-            account_sid=_get("TWILIO_ACCOUNT_SID", required=twilio_required),
-            auth_token=_get("TWILIO_AUTH_TOKEN", required=twilio_required),
-            from_number=_get("TWILIO_WHATSAPP_FROM", required=twilio_required),
-            recipients=_get_list("WHATSAPP_RECIPIENT_NUMBERS", required=twilio_required),
-            daily_content_sid=_get("TWILIO_DAILY_CONTENT_SID", required=twilio_required),
-            alert_content_sid=_get("TWILIO_ALERT_CONTENT_SID"),
-            timeout_seconds=_get_int("TWILIO_TIMEOUT_SECONDS", 30),
-            max_retries=_get_int("TWILIO_MAX_RETRIES", 3),
+        email = EmailSettings(
+            from_address=_get("EMAIL_FROM_ADDRESS", required=email_required),
+            app_password=_get("EMAIL_APP_PASSWORD", required=email_required),
+            to_address=_get("EMAIL_TO_ADDRESS", required=email_required),
+            subject=str(_get("EMAIL_SUBJECT", "Echoes — Daily Quotes")),
+            smtp_host=str(_get("EMAIL_SMTP_HOST", "smtp.gmail.com")),
+            smtp_port=_get_int("EMAIL_SMTP_PORT", 587),
+            timeout_seconds=_get_int("EMAIL_TIMEOUT_SECONDS", 30),
         )
 
         settings = cls(
@@ -258,7 +245,7 @@ class Settings:
             sunday_refresh_enabled=_get_bool("SUNDAY_REFRESH_ENABLED", True),
             refresh_weekday=_get_int("REFRESH_WEEKDAY", 6),
             notion=notion,
-            twilio=twilio,
+            email=email,
         )
         settings.validate()
         return settings

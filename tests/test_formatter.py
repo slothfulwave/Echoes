@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from echoes.deliver.formatter import format_bundle, format_lines, format_quote
-from echoes.deliver.twilio import PARAMETER_PADDING, TwilioSender
 from echoes.models import DailyBundle, PoolName, Quote
 
 
@@ -52,32 +51,6 @@ def test_short_tail_day_renders_fewer_lines(today):
 
 
 def test_newlines_are_flattened(today):
-    """WhatsApp rejects template parameters containing newlines."""
+    """A multi-line callout renders as one clean line, not a broken numbered list."""
     bundle = _bundle(today, [Quote("b1", "Line one\nline two", PoolName.BOOKS, "Book")])
     assert "\n" not in format_lines(bundle)[0]
-
-
-def test_whatsapp_pads_short_days_to_the_template_parameter_count():
-    padded = TwilioSender._pad.__wrapped__ if hasattr(TwilioSender._pad, "__wrapped__") else None
-    assert padded is None  # _pad is a plain method; exercised below via a stub instance.
-
-
-class _Padder(TwilioSender):
-    """Instantiates the padding logic without opening an HTTP session."""
-
-    def __init__(self, expected: int):
-        self._expected_parameters = expected
-
-
-def test_padding_fills_unused_template_slots():
-    padder = _Padder(3)
-    assert padder._pad(["1. a", "2. b"]) == ["1. a", "2. b", PARAMETER_PADDING]
-
-
-def test_padding_truncates_if_given_too_many():
-    padder = _Padder(3)
-    assert padder._pad(["1", "2", "3", "4"]) == ["1", "2", "3"]
-
-
-def test_sanitise_removes_tabs_and_newlines():
-    assert _Padder(3)._sanitise("a\tb\nc") == "a b c"

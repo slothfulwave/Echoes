@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from echoes.config import NotionSettings, Settings, TwilioSettings
+from echoes.config import EmailSettings, NotionSettings, Settings
 from echoes.models import PoolName, Quote
 
 
@@ -74,15 +74,14 @@ def settings(tmp_path: Path) -> Settings:
             me_section_tag_property="Tags",
             me_section_tag_value="Quote",
         ),
-        twilio=TwilioSettings(
-            account_sid="ACtest",
-            auth_token="token",
-            from_number="14155238886",
-            recipients=["919999999999"],
-            daily_content_sid="HXdaily",
-            alert_content_sid="HXalert",
+        email=EmailSettings(
+            from_address="sender@example.com",
+            app_password="app-password",
+            to_address="recipient@example.com",
+            subject="Echoes — Daily Quotes",
+            smtp_host="smtp.example.com",
+            smtp_port=587,
             timeout_seconds=5,
-            max_retries=1,
         ),
     )
 

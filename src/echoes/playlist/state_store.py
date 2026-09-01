@@ -1,12 +1,14 @@
-"""Persistence for the two state files.
+"""Persistence for Echoes' state files.
 
 ``state/quotes_schedule.json``  - the prepared playlist, one section per pool.
 ``state/seen_blocks.json``      - every quote block UUID ever scheduled.
+``state/email_thread.json``     - Message-IDs sent so far, for the email
+                                   delivery channel's single ongoing thread.
 
-Both are committed to the repository by the workflow, which is what makes the
-playlist survive between runs on ephemeral runners. Quotes are stored inline
-rather than by reference so the schedule file can be opened and read directly -
-transparency over normalisation, per the project's design values.
+All three are committed to the repository by the workflow, which is what
+makes state survive between runs on ephemeral runners. Quotes are stored
+inline rather than by reference so the schedule file can be opened and read
+directly - transparency over normalisation, per the project's design values.
 
 Writes are atomic (temp file + ``os.replace``) so an interrupted run can never
 leave a half-written playlist behind.
@@ -22,12 +24,13 @@ from typing import Any
 
 from echoes.errors import StateError
 from echoes.logging_setup import get_logger
-from echoes.models import Playlist, SeenIndex
+from echoes.models import EmailThread, Playlist, SeenIndex
 
 logger = get_logger(__name__)
 
 PLAYLIST_FILENAME = "quotes_schedule.json"
 SEEN_FILENAME = "seen_blocks.json"
+EMAIL_THREAD_FILENAME = "email_thread.json"
 
 
 class StateStore:
@@ -43,6 +46,10 @@ class StateStore:
     @property
     def seen_path(self) -> Path:
         return self._state_dir / SEEN_FILENAME
+
+    @property
+    def email_thread_path(self) -> Path:
+        return self._state_dir / EMAIL_THREAD_FILENAME
 
     def ensure_dir(self) -> None:
         self._state_dir.mkdir(parents=True, exist_ok=True)
@@ -91,6 +98,29 @@ class StateStore:
     def save_seen(self, seen: SeenIndex) -> None:
         self._write_json(self.seen_path, seen.to_dict())
         logger.info("Seen index written to %s", self.seen_path)
+
+    # ------------------------------------------------------------------
+    # Email thread
+    # ------------------------------------------------------------------
+    def load_email_thread(self) -> EmailThread:
+        raw = self._read_json(self.email_thread_path)
+        if raw is None:
+            logger.info(
+                "No email thread found at %s - the next send starts a new one",
+                self.email_thread_path,
+            )
+            return EmailThread()
+        try:
+            thread = EmailThread.from_dict(raw)
+        except (KeyError, ValueError, TypeError) as exc:
+            raise StateError(f"Email thread file {self.email_thread_path} is malformed: {exc}") from exc
+
+        logger.info("Loaded email thread (%d message(s) sent so far)", len(thread.message_ids))
+        return thread
+
+    def save_email_thread(self, thread: EmailThread) -> None:
+        self._write_json(self.email_thread_path, thread.to_dict())
+        logger.info("Email thread written to %s", self.email_thread_path)
 
     # ------------------------------------------------------------------
     # Internals

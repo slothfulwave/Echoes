@@ -1,9 +1,9 @@
 """The delivery interface.
 
 Two implementations exist: :class:`~echoes.deliver.console.ConsoleSender` for
-local development and for the period before a Twilio account and approved
-templates exist, and :class:`~echoes.deliver.twilio.TwilioSender` for
-production. Everything upstream of this interface is identical in both cases.
+local development and for the period before email delivery is configured,
+and :class:`~echoes.deliver.email_sender.EmailSender` for production.
+Everything upstream of this interface is identical in both cases.
 """
 
 from __future__ import annotations

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "echoes"
 version = "1.0.0"
-description = "Personal knowledge resurfacing: Notion quotes delivered daily over WhatsApp."
+description = "Personal knowledge resurfacing: Notion quotes delivered daily over email."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

@@ -4,14 +4,14 @@
 
 A single-user personal knowledge resurfacing system. Quotes you've saved in
 Notion get shuffled into a prepared playlist and delivered three at a time,
-once a day, over WhatsApp (via Twilio). It is not a SaaS, not multi-tenant,
-and not built for scale — it is built to be quiet, dependable, and boring.
+once a day, over email. It is not a SaaS, not multi-tenant, and not built
+for scale — it is built to be quiet, dependable, and boring.
 
 ```
 Notion          the bookshelf
 Echoes          the librarian who prepares reading slips
 Playlist        a shuffled deck of quote cards
-WhatsApp        a daily envelope
+Email           a daily envelope
 Sunday          restocking day
 Exhaustion      reshuffle the deck
 Failure         the librarian leaves a note explaining what happened
@@ -25,8 +25,8 @@ Failure         the librarian leaves a note explaining what happened
 2. [Getting started](#getting-started)
 3. [Every command, in one place](#every-command-in-one-place)
 4. [Configuration](#configuration)
-5. [WhatsApp delivery (via Twilio)](#whatsapp-delivery-via-twilio)
-6. [Where the playlist is stored](#where-the-playlist-is-stored)
+5. [Email delivery (via Gmail)](#email-delivery-via-gmail)
+6. [Where state is stored](#where-state-is-stored)
 7. [Deployment (GitHub Actions)](#deployment-github-actions)
 8. [Project layout](#project-layout)
 9. [**Tracing the code flow**](#tracing-the-code-flow) — for anyone reading the codebase for the first time
@@ -147,19 +147,20 @@ only to the databases you explicitly share with it.
    `notion.so/<workspace>/<DATABASE_ID>?v=<view_id>` — the 32-character
    string right after the workspace name.
 
-Put all three values in `.env`:
+Put all three values in `.env`, and set `DELIVERY_MODE=console` for now:
 
 ```
 NOTION_API_KEY=ntn_...
 NOTION_BOOKS_DATABASE_ID=...
 NOTION_ME_SECTION_DATABASE_ID=...
+DELIVERY_MODE=console
 ```
 
-That's enough to run everything except actual WhatsApp delivery — see
-[WhatsApp delivery](#whatsapp-delivery-via-twilio) below when you're ready
-for that. Until then, `DELIVERY_MODE=console` prints the message instead of
-sending it, and everything else (collection, scheduling, refresh, failure
-handling) behaves exactly as it will in production.
+`DELIVERY_MODE` defaults to `email`, which requires the `EMAIL_*` values
+covered in [Email delivery](#email-delivery-via-gmail) below — until those
+are filled in, explicitly setting it to `console` prints the message instead
+of sending it, while everything else (collection, scheduling, refresh,
+failure handling) behaves exactly as it will in production.
 
 ### 3. First run
 
@@ -169,7 +170,7 @@ before you move on:
 ```bash
 echoes collect          # read-only: prints every quote Echoes can see, touches no files
 echoes run --dry-run     # does everything else, but sends nothing and saves nothing
-echoes run               # the real thing (prints to your terminal by default, doesn't send WhatsApp yet)
+echoes run               # the real thing (prints to your terminal by default, doesn't send email yet)
 echoes show               # prints whatever is scheduled for today, straight from the saved playlist
 ```
 
@@ -258,15 +259,14 @@ See `.env.example` for the complete, commented list. Full reference:
 | `RANDOM_SEED` | *(unset)* | Set to a number to make shuffling reproducible (testing only) |
 | `BOOK_SEPARATOR` | `" - "` | Joins a book quote to its title |
 | `ATTRIBUTION_SEPARATOR` | `" — "` | Joins a standalone quote to its attribution |
-| `DELIVERY_MODE` | `console` | `console` prints the message; `whatsapp` sends it via Twilio |
-| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` | *(required if whatsapp)* | From the Twilio Console home page |
-| `TWILIO_WHATSAPP_FROM` | *(required if whatsapp)* | The sending WhatsApp number, no `+`, no spaces |
-| `WHATSAPP_RECIPIENT_NUMBERS` | *(required if whatsapp)* | Comma-separated recipient numbers, same format |
-| `TWILIO_DAILY_CONTENT_SID` | *(required if whatsapp)* | Approved Content Template SID for the daily message |
-| `TWILIO_ALERT_CONTENT_SID` | *(optional)* | Approved Content Template SID for alerts; unset = alerts are only logged |
-| `TWILIO_TIMEOUT_SECONDS` / `TWILIO_MAX_RETRIES` | `30` / `3` | HTTP timeout and retry count for Twilio calls |
+| `DELIVERY_MODE` | `email` | `email` sends via Gmail SMTP; `console` prints the message instead |
+| `EMAIL_FROM_ADDRESS` / `EMAIL_APP_PASSWORD` | *(required if email)* | Gmail address and its App Password (not your regular password) |
+| `EMAIL_TO_ADDRESS` | *(required if email)* | Where the daily digest goes |
+| `EMAIL_SUBJECT` | `Echoes — Daily Quotes` | Must stay constant — changing it starts a new Gmail thread |
+| `EMAIL_SMTP_HOST` / `EMAIL_SMTP_PORT` | `smtp.gmail.com` / `587` | SMTP server; defaults assume Gmail |
+| `EMAIL_TIMEOUT_SECONDS` | `30` | SMTP connection timeout |
 | `TIMEZONE` | `Asia/Kolkata` | Which timezone "today" and the daily schedule are measured in |
-| `STATE_DIR` | `state` | Where the playlist/seen-index JSON files live |
+| `STATE_DIR` | `state` | Where the playlist/seen-index/email-thread JSON files live |
 | `LOG_LEVEL` | `INFO` | `DEBUG` / `INFO` / `WARNING` / `ERROR` |
 | `DRY_RUN` | `false` | Same effect as `--dry-run` on every command |
 | `ALERTS_ENABLED` | `true` | Set `false` to suppress sending alerts (they're still logged) |
@@ -275,173 +275,105 @@ See `.env.example` for the complete, commented list. Full reference:
 
 ---
 
-## WhatsApp delivery (via Twilio)
+## Email delivery (via Gmail)
 
-**Not required to start** — everything above works with `DELIVERY_MODE=console`,
-which just prints the message instead of sending it. This section is for when
-you're ready to actually receive quotes on WhatsApp.
+The delivery channel Echoes actually uses, and the default `DELIVERY_MODE` —
+**no business account, no template approval, no waiting on anyone** — just a
+Gmail account.
 
-Echoes sends WhatsApp messages through **[Twilio](https://www.twilio.com)**
-rather than calling Meta's Graph API directly. Twilio is a "Business Solution
-Provider" — an officially authorized reseller of the same underlying WhatsApp
-Business Platform, with its own account signup and console instead of Meta's
-developer console. Practically: Twilio's own phone verification (independent
-of Meta's), a free Sandbox for instant testing, and Twilio support if
-something gets stuck.
+### How it works
 
-### Why it needs more than an API key
+Sends go out over SMTP using a Gmail **App Password** — a 16-character code
+scoped just to this, generated from your Google Account, that stands in for
+your real password so it never needs to be stored anywhere. The message body
+is plain multi-line text: the same numbered quotes `ConsoleSender` prints to
+your terminal, with one blank line added between each (`EmailSender` builds
+this itself from `format_lines`, deliberately not sharing `ConsoleSender`'s
+tighter single-line spacing).
 
-Echoes never *receives* a WhatsApp message from you, so there's never an open
-conversation window the way there is when you message a business first.
-Every message Echoes sends is "business-initiated," and the underlying
-WhatsApp Business Platform requires every business-initiated message to use
-a pre-approved **Content Template** — a fixed message shape with blanks that
-have been reviewed in advance. That means two templates need approval: one
-for the daily quotes, one for the failure alert.
+**The one deliberate design choice here**: every day's digest lands in a
+single, ongoing Gmail thread — a running conversation you can scroll back
+through — rather than a new email each day. This works by setting the
+`In-Reply-To` and `References` headers on every email after the first to
+point back at the ones before it, which is what Gmail actually uses to group
+messages into one thread (a matching Subject line helps too, which is why
+`EMAIL_SUBJECT` must never change once you start sending). Since each day's
+run is a fresh process with no memory of yesterday, the Message-ID history
+has to be saved to disk between runs — see `state/email_thread.json` in
+[Where state is stored](#where-state-is-stored).
+
+Alerts are sent as their own separate, un-threaded email (subject suffixed
+with "— Alert") — kept out of the daily digest thread on purpose, so a
+failure notice is easy to spot rather than buried in an ongoing conversation.
 
 ### Step-by-step setup
 
-**1. Create a Twilio account.**
-[twilio.com/try-twilio](https://www.twilio.com/try-twilio). Verification is
-via Twilio's own system, independent of Meta's.
+**1. Turn on 2-Step Verification** on the sending Gmail account, if it isn't
+already — required before Google will issue App Passwords.
 
-**2. Complete Trust Hub identity verification.**
-This is easy to miss and blocks *every* real send until it's done, regardless
-of which sender you use. In the Console, go to **Account → Trust Hub →
-Customer Profile**, choose **Individual** (for personal/hobbyist use, not a
-registered business), and complete the form: name, date of birth, address, a
-photo ID upload, and a live selfie for verification. Submit and wait for
-status **"Twilio Approved"** — this is Twilio's own KYC check, separate from
-Meta's WhatsApp review, and every message send fails with a
-`"Primary compliance profile is not approved"` error (Twilio error 63051)
-until it clears.
+**2. Generate an App Password.**
+[myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+→ create one (name it "Echoes" or similar) → copy the 16-character code.
+This is `EMAIL_APP_PASSWORD` — it's a credential, treat it like one.
 
-**3. Get your Account SID and Auth Token.**
-Console home page → **Account SID** and **Auth Token** (click "Show" to
-reveal it).
-
-**4. Join the WhatsApp Sandbox (for testing).**
-**Messaging → Try it out → Send a WhatsApp message** shows a Sandbox number
-(`+1 415 523 8886`) and a join code like `join <two-words>`. Send that code
-as a WhatsApp message to the Sandbox number from any account you want to
-test with.
-
-**5. Register a real Sender (for actual daily use).**
-The Sandbox is for testing only — for unattended daily sending, register a
-proper Sender: **Messaging → Senders → WhatsApp Senders → Create new
-sender**. This links a phone number to your WhatsApp Business Account (WABA)
-through Meta (via **"Continue with Facebook"**, an embedded, guided version
-of Meta's own business verification). If your Twilio account already has a
-WABA linked (e.g. from Sandbox use), you must select that *same* WABA for the
-new sender — creating a second one gets the request rejected.
-
-**6. Set your recipients.**
-`WHATSAPP_RECIPIENT_NUMBERS`: one or more numbers, comma-separated,
-international format with no `+` and no spaces (India = `91XXXXXXXXXX`). The
-same message goes to every number in the list independently — this fans a
-message out to individuals, it is **not** a WhatsApp group. On the Sandbox,
-each recipient must join first (step 4); with a real registered Sender, no
-join step is needed.
-
-**7. Create the two Content Templates.**
-**Messaging → Content Template Builder → Create new**, twice:
-
-- **Daily quotes** — type **Text**, category **Utility**, body:
-  ```
-  Hello! This is Echoes sending you your quotes for today:
-  {{1}}
-  {{2}}
-  {{3}}
-
-  Have a lovely day ahead! Echoes Signing Out!
-  ```
-  Three separate variables, since template parameters can't contain line
-  breaks. **Important:** the variables must hold *bare* quote text with no
-  leading number — the numbering ("1. ", "2. ", "3. ") is already in the
-  template body above. Echoes' own code already accounts for this (see
-  `deliver/twilio.py`); adding numbering on both sides would double it up in
-  the delivered message.
-- **Alert** — type **Text**, category **Utility**, body:
-  ```
-  Heads up — something needs your attention:
-  {{1}}
-
-  — Echoes
-  ```
-
-One placement rule that isn't obvious and *will* get a template rejected: **a
-variable can't be the very first or very last thing in the body.** There must
-be real static text both before the first variable and after the last one —
-both templates above satisfy this already.
-
-Submit both — Twilio forwards them to Meta for approval, typically minutes to
-about a day. Once each shows **Approved**, copy its **Content SID** (starts
-with `HX`).
-
-**8. Fill in `.env` and switch delivery mode on.**
+**3. Fill in `.env`:**
 
 ```
-DELIVERY_MODE=whatsapp
-TWILIO_ACCOUNT_SID=...
-TWILIO_AUTH_TOKEN=...
-TWILIO_WHATSAPP_FROM=...              # Sandbox number while testing, your real Sender once registered
-WHATSAPP_RECIPIENT_NUMBERS=919999999999
-TWILIO_DAILY_CONTENT_SID=HX...
-TWILIO_ALERT_CONTENT_SID=HX...
+DELIVERY_MODE=email
+EMAIL_FROM_ADDRESS=you@gmail.com
+EMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx
+EMAIL_TO_ADDRESS=recipient@example.com
+EMAIL_SUBJECT=Echoes — Daily Quotes
 ```
 
-Then `echoes run --dry-run` to check the config loads without errors,
-followed by `echoes run` for a real send.
+`EMAIL_SMTP_HOST`/`EMAIL_SMTP_PORT`/`EMAIL_TIMEOUT_SECONDS` already default
+correctly for Gmail — no need to touch them unless you're using a different
+provider's SMTP instead.
+
+**4. Test it:**
+
+```bash
+echoes run --dry-run    # logs the exact email that would be sent, sends nothing
+echoes run               # the real send - check your inbox
+```
 
 ### A few details worth knowing
 
-- **A parameter-count mismatch gets rejected outright.** On a short day —
-  when a pool doesn't divide evenly and the last day has only 1 or 2 quotes
-  instead of 3 — the unused template slots are padded with an em dash so the
-  send is still accepted.
-- **One recipient failing doesn't block the others.** If you've added more
-  than one number and one of them fails to receive a message, Echoes still
-  delivers to the rest and logs which one failed — the run only counts as
-  fully failed if *every* recipient failed.
-- **The Sandbox is for testing, not daily production use.** Joined numbers
-  can need rejoining after a period of inactivity, and it's meant for
-  verifying the pipeline works end to end — not as the permanent delivery
-  channel. Moving to a real registered Sender is a Twilio Console step, not a
-  code change.
-- **A newly registered Sender can still fail to send** with error 63051
-  ("WhatsApp Sender or Account is Locked") even when the Sender itself shows
-  `ONLINE`/`HIGH quality` in Twilio's own Senders API — this points at an
-  account-level restriction rather than the sender resource, and is a
-  Twilio Support case, not something fixable through more Console
-  configuration.
-- **Pricing scales per recipient**, not per message: sending to 3 numbers is
-  billed as 3 independent conversations, not one shared cost. Twilio also
-  adds its own small per-message fee on top of the underlying WhatsApp fee.
-  Check Twilio's current WhatsApp pricing page for exact rates, since they
-  vary by recipient country and change over time. The Sandbox itself is free.
+- **Changing `EMAIL_SUBJECT` starts a new thread.** It has to stay byte-for-
+  byte identical across every send, forever, for Gmail to keep threading
+  correctly.
+- **If `state/email_thread.json` is ever lost or reset**, the next send
+  simply starts a brand-new thread rather than failing — there's no way to
+  "resume" a thread Gmail's own headers no longer point back to, so this is
+  a graceful degrade, not an error.
+- **Cost: free.** Gmail SMTP has no per-message charge at this kind of
+  personal volume.
 
 ---
 
-## Where the playlist is stored
+## Where state is stored
 
-Two files, committed to the repository itself:
+Three files, committed to the repository itself:
 
 ```
 state/quotes_schedule.json   the prepared playlist — every date, and the quotes assigned to it
 state/seen_blocks.json       every quote block ID Echoes has ever scheduled, so refreshes know what's new
+state/email_thread.json      Message-IDs sent so far, only present/used when DELIVERY_MODE=email
 ```
 
 **These are deliberately *not* gitignored.** GitHub Actions runners start
 fresh every single run and throw everything away afterward — committing
-these files back to the repo is the only way the playlist survives from one
-day to the next. Without this, every run would rebuild the entire playlist
-from scratch, with no memory of what was already sent, risking real repeats.
-Quotes are written out in full inside the file rather than referenced by ID
-elsewhere, on purpose: you should be able to open the file and read it, not
-need to run code to decode it.
+these files back to the repo is the only way state survives from one day to
+the next. Without this, every run would rebuild the entire playlist from
+scratch with no memory of what was already sent (risking real repeats), and
+under `email` mode, every day's message would start a brand-new email thread
+instead of continuing the one before it. Quotes are written out in full
+inside the file rather than referenced by ID elsewhere, on purpose: you
+should be able to open the file and read it, not need to run code to decode
+it.
 
 Writes are atomic (written to a temp file, then swapped into place), so an
-interrupted run can never leave a half-written playlist behind. Since this
+interrupted run can never leave a half-written file behind. Since this
 repository is private, the quote text inside these files stays private too.
 
 ---
@@ -460,14 +392,16 @@ Add these under **Settings → Secrets and variables → Actions → Secrets**:
 NOTION_API_KEY
 NOTION_BOOKS_DATABASE_ID
 NOTION_ME_SECTION_DATABASE_ID
-TWILIO_ACCOUNT_SID
-TWILIO_AUTH_TOKEN
-TWILIO_WHATSAPP_FROM
-WHATSAPP_RECIPIENT_NUMBERS
+
+# needed since DELIVERY_MODE defaults to 'email' - omit only if you set
+# DELIVERY_MODE=console under Variables below instead
+EMAIL_FROM_ADDRESS
+EMAIL_APP_PASSWORD
+EMAIL_TO_ADDRESS
 ```
 
-Non-secret settings (`DELIVERY_MODE`, `TIMEZONE`, the per-day rates, Content
-Template SIDs) go under the **Variables** tab instead, or can be left unset
+Non-secret settings (`DELIVERY_MODE`, `TIMEZONE`, the per-day rates,
+`EMAIL_SUBJECT`) go under the **Variables** tab instead, or can be left unset
 entirely to use the defaults baked into `config.py`.
 
 `workflow_dispatch` is enabled, so you can trigger a run by hand from the
@@ -486,8 +420,8 @@ Free plan.
 
 ```
 src/echoes/
-├── config.py           resolves settings from .env or GitHub secrets - Settings, NotionSettings, TwilioSettings
-├── models.py            Quote, PoolSchedule, Playlist, SeenIndex, DailyBundle - the shared data shapes
+├── config.py           resolves settings from .env or GitHub secrets - Settings, NotionSettings, EmailSettings
+├── models.py            Quote, PoolSchedule, Playlist, SeenIndex, DailyBundle, EmailThread - the shared data shapes
 ├── errors.py             the fatal-vs-recoverable exception hierarchy
 ├── logging_setup.py      stdout logging, secret masking for logs
 ├── cli.py                 the echoes command: run / refresh / collect / show
@@ -501,12 +435,12 @@ src/echoes/
 │   ├── scheduler.py          pure functions: build_schedule, append_schedule (no I/O, no clock)
 │   └── service.py             PlaylistService - the daily "prepare and pick" + weekly refresh logic
 │
-├── deliver/                 Class 3 - message formatting, console and Twilio senders
+├── deliver/                 Class 3 - message formatting, console and email senders
 │   ├── base.py                the Sender interface
 │   ├── formatter.py            format_quote / format_lines / format_bundle
 │   ├── console.py               ConsoleSender - prints instead of sending
-│   ├── twilio.py                 TwilioSender - sends via Twilio's WhatsApp API
-│   └── factory.py                build_sender() - picks Console or Twilio based on DELIVERY_MODE
+│   ├── email_sender.py           EmailSender - sends via Gmail SMTP, one ongoing thread
+│   └── factory.py                build_sender() - picks a Sender based on DELIVERY_MODE
 │
 └── pipeline/                 daily orchestration and failure safety (Class 2.3)
     ├── daily.py                run_daily() - the full daily run, in order
@@ -516,7 +450,7 @@ scripts/
 └── dump_quotes.py         manual, network-using helper - see "Preview real quotes" above
 
 tests/                       the pytest suite - network-free, fakes Notion at the transport boundary
-state/                       the committed playlist and seen-index JSON files
+state/                       the committed playlist, seen-index, and email-thread JSON files
 ```
 
 The conceptual classes from the original design doc map onto these packages
@@ -579,8 +513,9 @@ cli.main()
        │
        ├─ _deliver()
        │    └─ sender.send_daily(bundle)
-       │         → TwilioSender (deliver/twilio.py) or ConsoleSender (deliver/console.py)
-       │         both call formatter.format_quote()/format_lines()      deliver/formatter.py
+       │         → ConsoleSender or EmailSender - whichever build_sender()
+       │           picked for DELIVERY_MODE (deliver/factory.py)
+       │         all call formatter.format_quote()/format_bundle()/format_lines()   deliver/formatter.py
        │
        ├─ _maybe_refresh()   (only if today is the configured refresh weekday)
        │    └─ perform_refresh()                    pipeline/refresh.py
@@ -598,8 +533,8 @@ Identical call path to above, with one flag threaded through: `settings.dry_run
 = True`. Concretely:
 - `_prepare()` still rebuilds pools in memory (may still call Notion), but
   skips the `store.save_playlist()`/`save_seen()` calls.
-- `TwilioSender.send_daily()`/`send_alert()` log `"DRY RUN - would send..."`
-  and return without calling Twilio at all.
+- `EmailSender.send_daily()`/`send_alert()` log `"DRY RUN - would send..."`
+  and return without calling SMTP at all.
 - `perform_refresh()` still detects new quotes but skips
   `store.save_playlist()`/`save_seen()`.
 
@@ -639,23 +574,30 @@ The books pool gets rebuilt (if needed) at the fallback rate, and
 were picked than the normal per-day rate. This is resolved once, at *build*
 time — not re-decided every day at delivery time.
 
-### Scenario: delivery fails partway (multiple recipients)
+### Scenario: `DELIVERY_MODE=email` (keeping every day in one Gmail thread)
 
-Inside `TwilioSender.send_daily()` (`deliver/twilio.py`): each recipient is
-sent to independently, in a loop, with failures collected rather than
-raised immediately:
-```python
-for recipient in recipients:
-    try:
-        self._post(payload)
-    except DeliveryError:
-        failed.append(recipient)
-
-if len(failed) == len(recipients):
-    raise DeliveryError(...)   # only a *total* failure is reported as undelivered
+Inside `EmailSender.send_daily()` (`deliver/email_sender.py`):
 ```
-So one bad number logs a warning and still lets everyone else receive the
-message that day.
+load thread history          store.load_email_thread()        - state/email_thread.json
+build the email               _build_message()                 - pure, no I/O; sets
+                                                                   In-Reply-To/References from
+                                                                   the thread history passed in
+send it                        _deliver()                        - the only part doing real
+                                                                   SMTP I/O, not unit-tested
+                                                                   directly (network calls
+                                                                   generally aren't in this
+                                                                   codebase - see the collect/
+                                                                   and playlist/ packages'
+                                                                   pure-function split)
+persist the new Message-ID    thread.message_ids.append(...)
+                               store.save_email_thread(thread)
+```
+The split between `_build_message` (pure) and `_deliver` (I/O) is what makes
+the threading logic testable without a real SMTP connection - see
+`tests/test_email_sender.py`. In dry-run mode, the send stops right after
+building the message: nothing is delivered and the thread history in
+`state/email_thread.json` is left untouched, exactly like the console path
+leaves its own state untouched under `--dry-run`.
 
 ### Scenario: `echoes collect`
 
@@ -711,7 +653,7 @@ not an oversight.
    day of a cycle sends 1 or 2 quotes instead of 3. Intended.
 5. **`state/*.json` is deliberately not gitignored.** Runners are ephemeral;
    committing state back is what carries the playlist between days. See
-   ["Where the playlist is stored"](#where-the-playlist-is-stored).
+   ["Where state is stored"](#where-state-is-stored).
 6. **Quotes are stored inline in the playlist, not normalised by reference.**
    Transparency over deduplication — the file should be readable by opening
    it directly.
