@@ -380,11 +380,14 @@ repository is private, the quote text inside these files stays private too.
 
 ## Deployment (GitHub Actions)
 
-The workflow (`.github/workflows/echoes-daily.yml`) runs daily at `32 1 * * *`
-UTC — 07:02 IST. It's deliberately not exactly on the hour, since GitHub's
-shared runners are busiest right at the top of the hour and scheduled runs
-are best-effort anyway. A late run is harmless here: the playlist is
-calendar-keyed, so even a delayed run still reads the correct day's quotes.
+The workflow (`.github/workflows/echoes-daily.yml`) runs daily at 07:02 IST
+(`cron: "2 7 * * *"` with `timezone: "Asia/Kolkata"`). It's deliberately not
+exactly on the hour, since GitHub's shared runners are busiest right at the
+top of the hour and scheduled runs are best-effort anyway — sometimes delayed
+by minutes, occasionally by hours, since GitHub doesn't guarantee schedule
+timing. A late run is harmless here regardless: the playlist is
+calendar-keyed, so even a significantly delayed run still reads the correct
+day's quotes.
 
 Add these under **Settings → Secrets and variables → Actions → Secrets**:
 

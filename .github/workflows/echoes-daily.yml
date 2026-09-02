@@ -1,16 +1,18 @@
 name: Echoes Daily
 
-# 01:32 UTC = 07:02 IST. Deliberately off the top of the hour: GitHub's shared
-# runner fleet is most contended on the hour, and scheduled runs are
-# best-effort with delays of several minutes being routine. A late run is
-# harmless here - the playlist is calendar-keyed, so a delayed run still reads
-# the correct day.
+# 07:02 IST. Deliberately off the top of the hour: GitHub's shared runner
+# fleet is most contended on the hour, and scheduled runs are best-effort -
+# delays of several minutes are routine, and longer delays (even a few hours)
+# are possible, since GitHub does not guarantee schedule timing. A late run
+# is harmless here regardless - the playlist is calendar-keyed, so a delayed
+# run still reads the correct day.
 #
 # The Sunday refresh is not a separate schedule. It runs inside this same job,
 # after delivery, so a refresh failure can never stop the day's quotes.
 on:
   schedule:
-    - cron: "32 1 * * *"
+    - cron: "2 7 * * *"
+      timezone: "Asia/Kolkata"
   workflow_dispatch:
     inputs:
       dry_run:
