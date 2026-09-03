@@ -286,10 +286,26 @@ Gmail account.
 Sends go out over SMTP using a Gmail **App Password** — a 16-character code
 scoped just to this, generated from your Google Account, that stands in for
 your real password so it never needs to be stored anywhere. The message body
-is plain multi-line text: the same numbered quotes `ConsoleSender` prints to
-your terminal, with one blank line added between each (`EmailSender` builds
-this itself from `format_lines`, deliberately not sharing `ConsoleSender`'s
-tighter single-line spacing).
+wraps the numbered quotes in a fixed, warm greeting and sign-off, with one
+blank line between each quote — a spaced-out, personal-feeling shape rather
+than the tighter single-line-per-quote format `ConsoleSender` prints:
+
+```
+Heyy! ❤️
+
+Sending you the quotes for today:
+1. Love wins. Love always wins. - Tuesdays With Morrie
+
+2. Learn to detach. - Tuesdays With Morrie
+
+3. If you are not busy being born, you are busy dying. — Bob Dylan
+
+Have a lovely lovely day champ! 🌻
+```
+
+The greeting/intro/sign-off text lives as `GREETING`/`INTRO`/`SIGNOFF`
+constants at the top of `deliver/email_sender.py` (not an environment
+variable) — edit them there directly if you want different wording.
 
 **The one deliberate design choice here**: every day's digest lands in a
 single, ongoing Gmail thread — a running conversation you can scroll back
@@ -380,14 +396,19 @@ repository is private, the quote text inside these files stays private too.
 
 ## Deployment (GitHub Actions)
 
-The workflow (`.github/workflows/echoes-daily.yml`) runs daily at 07:02 IST
-(`cron: "2 7 * * *"` with `timezone: "Asia/Kolkata"`). It's deliberately not
-exactly on the hour, since GitHub's shared runners are busiest right at the
-top of the hour and scheduled runs are best-effort anyway — sometimes delayed
-by minutes, occasionally by hours, since GitHub doesn't guarantee schedule
-timing. A late run is harmless here regardless: the playlist is
-calendar-keyed, so even a significantly delayed run still reads the correct
-day's quotes.
+The workflow (`.github/workflows/echoes-daily.yml`) targets `cron: "2 3 * * *"`
+with `timezone: "Asia/Kolkata"` — 03:02 IST, not the 07:02 IST quotes are
+actually meant to arrive at. That gap is deliberate: GitHub's `schedule`
+trigger is explicitly best-effort and does not guarantee timing, and in
+practice this workflow has consistently landed almost 4h45m late (observed
+two days running, within 30 seconds of each other, so this reads as a real
+pattern - likely queue congestion at that UTC slot rather than random jitter).
+Targeting 03:02 IST is a deliberate compensation so the delay lands the
+actual run close to 07:02 IST. This is a hack tuned to an observed pattern,
+not a guarantee - if GitHub's congestion at that slot changes, the real
+arrival time will drift. A late (or early) run is harmless either way: the
+playlist is calendar-keyed, so any run that day still reads the correct
+day's quotes regardless of what time it actually fires.
 
 Add these under **Settings → Secrets and variables → Actions → Secrets**:
 

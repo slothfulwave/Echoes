@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4a4a4a" />
+    </marker>
+    <marker id="arrowDashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a" />
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1000" height="520" fill="#ffffff" />
+
+  <!-- title -->
+  <text x="500" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="#1a1a1a">How Echoes Works</text>
+  <text x="500" y="66" text-anchor="middle" font-size="14" fill="#6b6b6b">Notion quotes → a prepared playlist → a daily email digest</text>
+
+  <!-- ===================== main row ===================== -->
+  <!-- Notion node -->
+  <g>
+    <rect x="55" y="150" width="120" height="100" rx="20" fill="#191919" />
+    <text x="115" y="215" text-anchor="middle" font-size="42" font-weight="700" fill="#ffffff">N</text>
+    <text x="115" y="278" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">Notion</text>
+    <text x="115" y="298" text-anchor="middle" font-size="12" fill="#6b6b6b">Quotes saved as</text>
+    <text x="115" y="313" text-anchor="middle" font-size="12" fill="#6b6b6b">callout blocks</text>
+  </g>
+
+  <!-- arrow 1: Notion -> GitHub Actions -->
+  <line x1="180" y1="200" x2="405" y2="200" stroke="#4a4a4a" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="292" y="184" text-anchor="middle" font-size="12" fill="#4a4a4a">reads</text>
+  <text x="292" y="199" text-anchor="middle" font-size="11" fill="#9a9a9a">(Class 1 · Collect)</text>
+
+  <!-- GitHub Actions node (hub, larger) -->
+  <g>
+    <rect x="410" y="130" width="180" height="140" rx="22" fill="#24292f" />
+    <!-- simple workflow/automation glyph: two curved cycle arrows -->
+    <g transform="translate(500,178)">
+      <path d="M -22 0 A 22 22 0 1 1 -14 15" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+      <path d="M -18 21 L -14 15 L -8 20" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 22 0 A 22 22 0 1 1 14 -15" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+      <path d="M 18 -21 L 14 -15 L 8 -20" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+    <text x="500" y="228" text-anchor="middle" font-size="16" font-weight="600" fill="#ffffff">GitHub Actions</text>
+    <text x="500" y="248" text-anchor="middle" font-size="12" fill="#c7ccd1">Builds the playlist,</text>
+    <text x="500" y="263" text-anchor="middle" font-size="12" fill="#c7ccd1">picks today's 3 quotes</text>
+  </g>
+
+  <!-- arrow 2: GitHub Actions -> Gmail -->
+  <line x1="595" y1="200" x2="820" y2="200" stroke="#4a4a4a" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="707" y="184" text-anchor="middle" font-size="12" fill="#4a4a4a">sends</text>
+  <text x="707" y="199" text-anchor="middle" font-size="11" fill="#9a9a9a">(Class 3 · Deliver)</text>
+
+  <!-- Gmail / Email node -->
+  <g>
+    <rect x="825" y="150" width="120" height="100" rx="20" fill="#ffffff" stroke="#e4e4e4" stroke-width="1.5" />
+    <!-- envelope glyph -->
+    <g transform="translate(885,200)">
+      <rect x="-30" y="-20" width="60" height="42" rx="4" fill="#ffffff" stroke="#ea4335" stroke-width="3" />
+      <path d="M -30 -20 L 0 4 L 30 -20" fill="none" stroke="#ea4335" stroke-width="3" stroke-linejoin="round" />
+    </g>
+    <text x="885" y="278" text-anchor="middle" font-size="16" font-weight="600" fill="#1a1a1a">Gmail</text>
+    <text x="885" y="298" text-anchor="middle" font-size="12" fill="#6b6b6b">One ongoing thread,</text>
+    <text x="885" y="313" text-anchor="middle" font-size="12" fill="#6b6b6b">once a day</text>
+  </g>
+
+  <!-- ===================== secondary annotations ===================== -->
+
+  <!-- state persistence, below GitHub Actions -->
+  <g>
+    <rect x="440" y="345" width="120" height="66" rx="10" fill="#f6f6f7" stroke="#e4e4e4" />
+    <g transform="translate(465,378)">
+      <path d="M -8 -14 L 4 -14 L 10 -8 L 10 14 L -8 14 Z" fill="none" stroke="#4a4a4a" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 4 -14 L 4 -8 L 10 -8" fill="none" stroke="#4a4a4a" stroke-width="2" stroke-linejoin="round" />
+    </g>
+    <text x="510" y="373" font-size="12" font-weight="600" fill="#1a1a1a">state/*.json</text>
+    <text x="510" y="389" font-size="10" fill="#6b6b6b">committed back</text>
+    <text x="510" y="401" font-size="10" fill="#6b6b6b">to the repo</text>
+  </g>
+  <line x1="500" y1="270" x2="500" y2="343" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrowDashed)" />
+  <text x="500" y="330" text-anchor="middle" font-size="10" fill="#9a9a9a"></text>
+
+  <!-- Sunday refresh loop-back: GitHub Actions -> Notion -->
+  <path d="M 470 275 C 300 400, 200 400, 130 260" fill="none" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrowDashed)" />
+  <text x="300" y="440" text-anchor="middle" font-size="12" fill="#6b6b6b">Sundays: check Notion for new quotes, append to the future</text>
+
+  <!-- footer -->
+  <text x="500" y="500" text-anchor="middle" font-size="11" fill="#9a9a9a">Full step-by-step walkthrough in "Tracing the code flow" below</text>
+</svg>
