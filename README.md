@@ -17,6 +17,11 @@ Exhaustion      reshuffle the deck
 Failure         the librarian leaves a note explaining what happened
 ```
 
+📋 **[Conceptual overview diagram (Miro board)](https://miro.com/app/board/uXjVJCM_YO4=/?share_link_id=288783706490)**
+— the whole system on one board: how quotes travel from Notion, through the
+playlist, to your inbox. Start here if you'd rather see the shape of it before
+reading any code.
+
 ---
 
 ## Table of contents
