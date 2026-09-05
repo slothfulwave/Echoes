@@ -389,8 +389,10 @@ should be able to open the file and read it, not need to run code to decode
 it.
 
 Writes are atomic (written to a temp file, then swapped into place), so an
-interrupted run can never leave a half-written file behind. Since this
-repository is private, the quote text inside these files stays private too.
+interrupted run can never leave a half-written file behind. Note that this
+repository is public, which means the quote text committed inside these files
+is public too — if you run your own copy, keep that in mind, or make your fork
+private.
 
 ---
 
@@ -434,9 +436,10 @@ waiting for the schedule.
 
 ### Cost
 
-A run takes roughly 1–3 minutes. At around 90 minutes a month, that's well
-inside the 2,000 free Linux minutes a private repository gets on GitHub's
-Free plan.
+A run takes roughly 1–3 minutes, so about 90 minutes a month. GitHub Actions
+is free on standard runners for public repositories, so this costs nothing to
+run. (On a private fork, the same usage would still sit well inside the 2,000
+free Linux minutes the Free plan includes.)
 
 ---
 
