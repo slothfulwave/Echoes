@@ -3,74 +3,10 @@
   "pools": {
     "standalone": {
       "per_day": 1,
-      "cycle": 1,
-      "built_on": "2026-09-01",
+      "cycle": 2,
+      "built_on": "2026-09-27",
       "days": {
-        "2026-09-01": [
-          {
-            "block_id": "a7050c06-9eaa-4493-a5d4-244854b9ade8",
-            "text": "One often meets their destiny on the road they take to avoid it.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-02": [
-          {
-            "block_id": "13ac7dcc-6324-80a7-b15e-e4ef52da2b7d",
-            "text": "Success is a relationship you have with your own self.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-03": [
-          {
-            "block_id": "c0d423b9-3b25-4e5b-b3a7-354cff62b69f",
-            "text": "The first step’s the hardest when you’re walking into the unknown.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-04": [
-          {
-            "block_id": "c6fcb357-26cd-49e2-b3ac-723270a66542",
-            "text": "You fall in love with the little things about someone, like the sound of their laughter and the way their smile forms.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-05": [
-          {
-            "block_id": "77dd85de-9f7f-4638-af5d-fc3de3d8e743",
-            "text": "This moment, right here, is life.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-06": [
-          {
-            "block_id": "139c7dcc-6324-806f-8de8-ec9831dc0735",
-            "text": "Namárië — Be well and go towards goodness",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-07": [
-          {
-            "block_id": "139c7dcc-6324-8007-96e2-d29c6bc516d3",
-            "text": "The universe will not grant you peace in something that was not meant for you.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-08": [
-          {
-            "block_id": "13ac7dcc-6324-8076-823d-c4e2f3fb3c57",
-            "text": "Life will always be filled with ups and downs. It's the law of nature. Yin and yang, light and dark. It's the nature of life and it's okay. We must embrace the duality inherent within life. Without night, there is no day. Without black, there is no white. Without negative, there is no positive. Spending your life trying to make everything be light only creates suffering. Spending your energy to only hold on to light is not freedom. We must learn to embrace the darkness, and in doing so, we transform ourselves. In accepting the nature of life, we accept what is and what isn't and experience freedom. Life will always have expansion and contraction. When you stop seeking for perfection outside in the constantly changing world and realize that inside you is the ultimate perfection, that your soul is perfect beyond duality, beyond good or bad-when you understand that, you are free. Truly free. You see that life is perfect even in its seeming imperfection. Peace is an inside job. Don't look for peace in the world because you won't find it. — You Are The One",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-09": [
+        "2026-09-27": [
           {
             "block_id": "64e6b9a3-8375-42c0-87f6-f9e44f1a8c9b",
             "text": "You will always get the result you trained for, not the result you desire.",
@@ -78,119 +14,7 @@
             "source_title": null
           }
         ],
-        "2026-09-10": [
-          {
-            "block_id": "13ac7dcc-6324-80dc-8c02-e04c27beed6d",
-            "text": "Whether you are chasing something for yourself or something bigger, you truly have one life don’t forget to show up for it.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-11": [
-          {
-            "block_id": "13ac7dcc-6324-804c-bbd5-cf9694c563b5",
-            "text": "Everything you've ever wanted is still waiting for you. You have not lost your chance, your potential has not waned, your truth has not diminished — even if you have kept it in hiding. All you lost was one particular chance to make it manifest. There will be an infinite more. You have not lost anything just because you lost one particular moment in time. You still contain everything you've ever wished to become.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-12": [
-          {
-            "block_id": "13ac7dcc-6324-80a3-9062-ed122b9c06c2",
-            "text": "Only in the darkest moments do the true stars shine brightest.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-13": [
-          {
-            "block_id": "1919c216-0e34-4bf2-b6c1-7d0ee4b534e4",
-            "text": "Everyone wants to be the SUN to brighten up someone’s life, but why not be the MOON to shine on someone’s darkest hour.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-14": [
-          {
-            "block_id": "13ac7dcc-6324-8062-814a-c1b2c80c12ea",
-            "text": "Commitment is what transforms a promise into reality.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-15": [
-          {
-            "block_id": "13ac7dcc-6324-80d5-909f-e59f8c35a26c",
-            "text": "If you are not busy being born, you are busy dying. — Bob Dylan",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-16": [
-          {
-            "block_id": "582f034d-4b68-4afd-b64d-4dbb36029684",
-            "text": "History doesn’t repeat itself, but it rhymes.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-17": [
-          {
-            "block_id": "d880745f-1cec-489c-89ff-4ce47b88ace7",
-            "text": "The universe rewards those who initiate.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-18": [
-          {
-            "block_id": "13ac7dcc-6324-80b0-91d0-d71952e6a457",
-            "text": "Every mortal experiences death, but few experiences life. — Rumi",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-19": [
-          {
-            "block_id": "c8e606fd-1161-4fca-ad5a-77c96313a3ff",
-            "text": "Main apne hi mann ka hausla hoon!",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-20": [
-          {
-            "block_id": "fb6875a7-4a85-4e06-8761-f27ded48939d",
-            "text": "Kismat se phele na kismat se zyaada, Mila hai har kisi ko zindagi main!",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-21": [
-          {
-            "block_id": "50f996c3-d57c-4539-97eb-b142aae86148",
-            "text": "The life works in unexpected ways — sometimes tough, while at other moments, it reveals its beauty. You never know what it has in store for you.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-22": [
-          {
-            "block_id": "c0eb4592-e618-4382-8b3e-6e07dcd319b2",
-            "text": "Love is the greatest risk of all, but life without it is meaningless.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-23": [
-          {
-            "block_id": "3b26d1dc-dce9-4aa4-8b4f-756b91e77386",
-            "text": "To determine where you should go, you must first understand where you are.",
-            "pool": "standalone",
-            "source_title": null
-          }
-        ],
-        "2026-09-24": [
+        "2026-09-28": [
           {
             "block_id": "3d2c7dcc-6324-8077-8555-f4147f45a0bf",
             "text": "There is beauty in not knowing what’s next. To let things arrive you have to let things go. Never be embarrassed to try your best. Joy has a habit of returning. What is meant to be will always find it’s way. Allow yourself to shine without the desire to be seen. As long as i am alive I can begin again and again.",
@@ -198,7 +22,39 @@
             "source_title": null
           }
         ],
-        "2026-09-25": [
+        "2026-09-29": [
+          {
+            "block_id": "139c7dcc-6324-806f-8de8-ec9831dc0735",
+            "text": "Namárië — Be well and go towards goodness",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-09-30": [
+          {
+            "block_id": "13ac7dcc-6324-804c-bbd5-cf9694c563b5",
+            "text": "Everything you've ever wanted is still waiting for you. You have not lost your chance, your potential has not waned, your truth has not diminished — even if you have kept it in hiding. All you lost was one particular chance to make it manifest. There will be an infinite more. You have not lost anything just because you lost one particular moment in time. You still contain everything you've ever wished to become.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-01": [
+          {
+            "block_id": "3b26d1dc-dce9-4aa4-8b4f-756b91e77386",
+            "text": "To determine where you should go, you must first understand where you are.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-02": [
+          {
+            "block_id": "582f034d-4b68-4afd-b64d-4dbb36029684",
+            "text": "Think not of the books you have bought as a ‘to be read’ pile. Instead, think of your bookcase as a wine cellar. You collect books to be read at the right time, the right place, and the right mood. — Luc van Donkergoed",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-03": [
           {
             "block_id": "3d2c7dcc-6324-8005-994f-d5514c39bbc0",
             "text": "History doesn’t repeat itself, but it rhymes.",
@@ -206,10 +62,154 @@
             "source_title": null
           }
         ],
-        "2026-09-26": [
+        "2026-10-04": [
+          {
+            "block_id": "139c7dcc-6324-8007-96e2-d29c6bc516d3",
+            "text": "The universe will not grant you peace in something that was not meant for you.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-05": [
+          {
+            "block_id": "13ac7dcc-6324-80a7-b15e-e4ef52da2b7d",
+            "text": "Success is a relationship you have with your own self.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-06": [
+          {
+            "block_id": "13ac7dcc-6324-80b0-91d0-d71952e6a457",
+            "text": "Every mortal experiences death, but few experiences life. — Rumi",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-07": [
+          {
+            "block_id": "13ac7dcc-6324-80d5-909f-e59f8c35a26c",
+            "text": "If you are not busy being born, you are busy dying. — Bob Dylan",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-08": [
+          {
+            "block_id": "13ac7dcc-6324-8076-823d-c4e2f3fb3c57",
+            "text": "Life will always be filled with ups and downs. It's the law of nature. Yin and yang, light and dark. It's the nature of life and it's okay. We must embrace the duality inherent within life. Without night, there is no day. Without black, there is no white. Without negative, there is no positive. Spending your life trying to make everything be light only creates suffering. Spending your energy to only hold on to light is not freedom. We must learn to embrace the darkness, and in doing so, we transform ourselves. In accepting the nature of life, we accept what is and what isn't and experience freedom. Life will always have expansion and contraction. When you stop seeking for perfection outside in the constantly changing world and realize that inside you is the ultimate perfection, that your soul is perfect beyond duality, beyond good or bad-when you understand that, you are free. Truly free. You see that life is perfect even in its seeming imperfection. Peace is an inside job. Don't look for peace in the world because you won't find it. — You Are The One",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-09": [
+          {
+            "block_id": "77dd85de-9f7f-4638-af5d-fc3de3d8e743",
+            "text": "This moment, right here, is life.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-10": [
+          {
+            "block_id": "fb6875a7-4a85-4e06-8761-f27ded48939d",
+            "text": "Kismat se phele na kismat se zyaada, Mila hai har kisi ko zindagi main!",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-11": [
+          {
+            "block_id": "d880745f-1cec-489c-89ff-4ce47b88ace7",
+            "text": "The universe rewards those who initiate.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-12": [
+          {
+            "block_id": "a7050c06-9eaa-4493-a5d4-244854b9ade8",
+            "text": "One often meets their destiny on the road they take to avoid it.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-13": [
+          {
+            "block_id": "1919c216-0e34-4bf2-b6c1-7d0ee4b534e4",
+            "text": "Everyone wants to be the SUN to brighten up someone’s life, but why not be the MOON to shine on someone’s darkest hour.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-14": [
+          {
+            "block_id": "50f996c3-d57c-4539-97eb-b142aae86148",
+            "text": "The life works in unexpected ways — sometimes tough, while at other moments, it reveals its beauty. You never know what it has in store for you.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-15": [
+          {
+            "block_id": "c0eb4592-e618-4382-8b3e-6e07dcd319b2",
+            "text": "Love is the greatest risk of all, but life without it is meaningless.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-16": [
+          {
+            "block_id": "c6fcb357-26cd-49e2-b3ac-723270a66542",
+            "text": "You fall in love with the little things about someone, like the sound of their laughter and the way their smile forms.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-17": [
+          {
+            "block_id": "13ac7dcc-6324-8062-814a-c1b2c80c12ea",
+            "text": "Commitment is what transforms a promise into reality.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-18": [
           {
             "block_id": "3d2c7dcc-6324-8066-a71a-dc454b8d9fc1",
             "text": "Practice any art. Music, singing, dancing, acting, drawing, painting, sculpture, poetry, fiction, essays. No matter how well or badly, not to get money an fame, but to experience becoming. To find out what’s inside you. To make your soul grow. Do art and do it for the rest of your lives. — Kurt Vonnegut",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-19": [
+          {
+            "block_id": "13ac7dcc-6324-80a3-9062-ed122b9c06c2",
+            "text": "Only in the darkest moments do the true stars shine brightest.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-20": [
+          {
+            "block_id": "c0d423b9-3b25-4e5b-b3a7-354cff62b69f",
+            "text": "The first step’s the hardest when you’re walking into the unknown.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-21": [
+          {
+            "block_id": "13ac7dcc-6324-80dc-8c02-e04c27beed6d",
+            "text": "Whether you are chasing something for yourself or something bigger, you truly have one life don’t forget to show up for it.",
+            "pool": "standalone",
+            "source_title": null
+          }
+        ],
+        "2026-10-22": [
+          {
+            "block_id": "c8e606fd-1161-4fca-ad5a-77c96313a3ff",
+            "text": "Main apne hi mann ka hausla hoon!",
             "pool": "standalone",
             "source_title": null
           }
